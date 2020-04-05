@@ -6,13 +6,17 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { fetchStats, statsSelector } from "../slices/stats";
 
-import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
+import {
+    makeStyles,
+    MuiThemeProvider
+} from "@material-ui/core/styles";
 
 import Header from "./Header";
 import Footer from "./Footer";
 
 import Italy from "../pages/italy/ItalyContainer";
 import theme from "./theme";
+import { CssBaseline } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
     offset: theme.mixins.toolbar,
@@ -25,6 +29,7 @@ function App() {
     const classes = useStyles();
 
     const dispatch = useDispatch();
+
     const { stats, loading, hasErrors } = useSelector(statsSelector);
 
     useEffect(() => {
@@ -34,7 +39,8 @@ function App() {
     console.log(stats, loading, hasErrors);
 
     return (
-        <ThemeProvider theme={theme}>
+        <MuiThemeProvider theme={theme}>
+            <CssBaseline />
             <Header updateDateTime={loading ? null : stats.updateDateTime} />
             <div className={classes.offset} />
             <div className={classes.container}>
@@ -44,9 +50,8 @@ function App() {
                     </Switch>
                 </Router>
             </div>
-
             <Footer />
-        </ThemeProvider>
+        </MuiThemeProvider>
     );
 }
 

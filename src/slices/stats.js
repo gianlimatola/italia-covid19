@@ -53,12 +53,14 @@ function fetchItalyStats() {
                         nuoviGuariti:
                             currentIndex === 0
                                 ? currentValue.dimessi_guariti
-                                : currentValue.dimessi_guariti - accumulator[currentIndex - 1].totaleGuariti,
+                                : currentValue.dimessi_guariti -
+                                  accumulator[currentIndex - 1].totaleGuariti,
                         totaleDeceduti: currentValue.deceduti,
                         nuoviDeceduti:
                             currentIndex === 0
                                 ? currentValue.deceduti
-                                : currentValue.deceduti - accumulator[currentIndex - 1].totaleDeceduti,
+                                : currentValue.deceduti -
+                                  accumulator[currentIndex - 1].totaleDeceduti
                     });
 
                     return accumulator;
@@ -89,39 +91,11 @@ export function fetchStats() {
         dispatch(getStats());
 
         Promise.all([
-            //fetch(appSettings.italyStatsUrl).then(value => value.json()),
             fetchItalyStats(),
             fetch(appSettings.regionsStatsUrl).then(value => value.json()),
             fetch(appSettings.provincesStatsUrl).then(value => value.json())
-
-            // fetch(urlCovid19)
-            //     .then(value => value.json())
-            //     .then(json => {
-            //         console.log(json);
-            //         return json.reduce((map, item) => {
-            //             const {
-            //                 codice_regione: codice,
-            //                 totale_attualmente_positivi: totalePositivi
-            //             } = item;
-
-            //             const prev = map.get(codice);
-
-            //             if (prev) {
-            //                 prev.totalePositivi += totalePositivi;
-            //             } else {
-            //                 map.set(codice, { codice, totalePositivi });
-            //             }
-
-            //             return map;
-            //         }, new Map());
-            //     }),
-            // fetch(urlCovidRegioni).then(value => value.json())
         ])
             .then(value => {
-                // const sortedItalyStats = value[0].sort((a, b) => {
-                //     return a.data > b.data ? -1 : 1;
-                // });
-
                 dispatch(
                     getStatsSuccess({
                         updateDateTime: value[0].updateDateTime,
@@ -134,17 +108,5 @@ export function fetchStats() {
             .catch(err => {
                 dispatch(getStatsFailure());
             });
-
-        // try {
-        //     const response = await fetch(
-        //         "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-andamento-nazionale.json"
-        //     );
-
-        //     const data = await response.json();
-
-        //     dispatch(getStatsSuccess(data);
-        // } catch (error) {
-        //     dispatch(getStatsFailure());
-        // }
     };
 }

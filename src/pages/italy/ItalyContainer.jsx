@@ -19,6 +19,11 @@ const useStyles = makeStyles(theme => ({
 function ItalyContainer() {
     const classes = useStyles();
 
+    const XS = 12;
+    const SM = 6;
+    const MD = 6;
+    const LG = 6;
+
     const { stats } = useSelector(statsSelector);
 
     if (stats === null) return null;
@@ -27,6 +32,24 @@ function ItalyContainer() {
         italy: { overview }
     } = stats;
 
+    const pieChartData = [
+        {
+            name: "Attuali positivi",
+            value: overview.totalePositivi,
+            color: "orange"
+        },
+        {
+            name: "Guariti",
+            value: overview.totaleGuariti,
+            color: "green"
+        },
+        {
+            name: "Deceduti",
+            value: overview.totaleDeceduti,
+            color: "black"
+        }
+    ];
+
     return (
         <>
             <Typography variant="h4" gutterBottom align="center">
@@ -34,12 +57,13 @@ function ItalyContainer() {
             </Typography>
 
             <Grid container className={classes.gridContainer}>
-                <Grid item xs={12}>
+                <Grid item xs={XS} md={8} lg={8}>
                     <Overview data={overview} />
                 </Grid>
-                {/* <Grid item xs={12} sm={6}>
-                    <PieChart />
-                </Grid> */}
+
+                <Grid item xs={XS} md={4} lg={4}>
+                    <PieChart data={pieChartData} />
+                </Grid>
             </Grid>
         </>
     );

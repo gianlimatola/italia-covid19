@@ -18,6 +18,11 @@ const useStyles = makeStyles(theme => ({
 function Overview({ data }) {
     const classes = useStyles();
 
+    const XS = 12
+    const SM = 6
+    const MD = 6
+    const LG = 6
+
     const {
         totaleContagiati,
         nuoviContagiati,
@@ -31,7 +36,7 @@ function Overview({ data }) {
 
     return (
         <Grid container className={classes.gridContainer}>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid item xs={XS} sm={SM} md={MD} lg={LG}>
                 <BoxOverview
                     label="Totale contagiati"
                     value={totaleContagiati}
@@ -39,7 +44,7 @@ function Overview({ data }) {
                     color="red"
                 />
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid item xs={XS} sm={SM} md={MD} lg={LG}>
                 <BoxOverview
                     label="Attuali positivi"
                     value={totalePositivi}
@@ -47,7 +52,7 @@ function Overview({ data }) {
                     color="orange"
                 />
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid item xs={XS} sm={SM} md={MD} lg={LG}>
                 <BoxOverview
                     label="Guariti"
                     value={totaleGuariti}
@@ -55,7 +60,7 @@ function Overview({ data }) {
                     color="green"
                 />
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid item xs={XS} sm={SM} md={MD} lg={LG}>
                 <BoxOverview
                     label="Deceduti"
                     value={totaleDeceduti}
