@@ -81,7 +81,8 @@ function fetchItalyStats() {
                     nuoviGuariti: last.nuoviGuariti,
                     totaleDeceduti: last.totaleDeceduti,
                     nuoviDeceduti: last.nuoviDeceduti
-                }
+                },
+                items: items
             };
         });
 }
@@ -99,7 +100,10 @@ export function fetchStats() {
                 dispatch(
                     getStatsSuccess({
                         updateDateTime: value[0].updateDateTime,
-                        italy: { overview: value[0].overview },
+                        italy: {
+                            overview: value[0].overview,
+                            items: value[0].items
+                        },
                         regions: value[1],
                         provinces: value[2]
                     })

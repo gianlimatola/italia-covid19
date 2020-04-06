@@ -6,10 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { fetchStats, statsSelector } from "../slices/stats";
 
-import {
-    makeStyles,
-    MuiThemeProvider
-} from "@material-ui/core/styles";
+import { makeStyles, MuiThemeProvider } from "@material-ui/core/styles";
 
 import Header from "./Header";
 import Footer from "./Footer";
@@ -21,7 +18,10 @@ import { CssBaseline } from "@material-ui/core";
 const useStyles = makeStyles(theme => ({
     offset: theme.mixins.toolbar,
     container: {
-        marginBottom: 64
+        marginBottom: 64,
+        [theme.breakpoints.up("sm")]: {
+            padding: 16
+        }
     }
 }));
 
