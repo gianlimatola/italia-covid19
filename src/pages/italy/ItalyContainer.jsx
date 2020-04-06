@@ -37,7 +37,7 @@ function ItalyContainer() {
 
     const pieChartData = [
         {
-            name: "Attuali positivi",
+            name: "Positivi",
             value: overview.totalePositivi,
             color: "orange"
         },
@@ -53,43 +53,13 @@ function ItalyContainer() {
         }
     ];
 
-    const lineChartData = {
-        data: items.reduce((accumulator, currentValue) => {
-            accumulator.push({
-                data: moment(currentValue.data).format("L"),
-                totaleContagiati: currentValue.totaleContagiati,
-                totalePositivi: currentValue.totalePositivi,
-                totaleGuariti: currentValue.totaleGuariti,
-                totaleDeceduti: currentValue.totaleDeceduti
-            });
+    const lineChartDataAndamentoGiornaliero = getLineChartDataAndamentoGiornaliero(
+        items
+    );
 
-            return accumulator;
-        }, []),
-        options: {
-            lines: [
-                {
-                    label: "Totale contagiati",
-                    dataKey: "totaleContagiati",
-                    color: "red"
-                },
-                {
-                    label: "Attuali positivi",
-                    dataKey: "totalePositivi",
-                    color: "orange"
-                },
-                {
-                    label: "Guariti",
-                    dataKey: "totaleGuariti",
-                    color: "green"
-                },
-                {
-                    label: "Deceduti",
-                    dataKey: "totaleDeceduti",
-                    color: "black"
-                }
-            ]
-        }
-    };
+    const lineChartDataNuoviCasi = getLineChartDataNuoviCasi(
+        items
+    );
 
     return (
         <>
@@ -112,7 +82,17 @@ function ItalyContainer() {
 
                 <Grid container className={classes.gridContainer}>
                     <Grid item xs={12}>
-                        <LineChart data={lineChartData} />
+                        <LineChart data={lineChartDataAndamentoGiornaliero} />
+                    </Grid>
+                </Grid>
+            </Card>
+
+            <Card style={{ marginTop: 20 }}>
+                <Title text="Nuovi casi" />
+
+                <Grid container className={classes.gridContainer}>
+                    <Grid item xs={12}>
+                        <LineChart data={lineChartDataNuoviCasi} />
                     </Grid>
                 </Grid>
             </Card>
@@ -121,6 +101,86 @@ function ItalyContainer() {
 }
 
 export default ItalyContainer;
+
+const getLineChartDataAndamentoGiornaliero = items => {
+    return {
+        data: items.reduce((accumulator, currentValue) => {
+            accumulator.push({
+                data: moment(currentValue.data).format("L"),
+                totaleContagiati: currentValue.totaleContagiati,
+                totalePositivi: currentValue.totalePositivi,
+                totaleGuariti: currentValue.totaleGuariti,
+                totaleDeceduti: currentValue.totaleDeceduti
+            });
+
+            return accumulator;
+        }, []),
+        options: {
+            lines: [
+                {
+                    label: "Contagiati",
+                    dataKey: "totaleContagiati",
+                    color: "red"
+                },
+                {
+                    label: "Positivi",
+                    dataKey: "totalePositivi",
+                    color: "orange"
+                },
+                {
+                    label: "Guariti",
+                    dataKey: "totaleGuariti",
+                    color: "green"
+                },
+                {
+                    label: "Deceduti",
+                    dataKey: "totaleDeceduti",
+                    color: "black"
+                }
+            ]
+        }
+    };
+};
+
+const getLineChartDataNuoviCasi = items => {
+    return {
+        data: items.reduce((accumulator, currentValue) => {
+            accumulator.push({
+                data: moment(currentValue.data).format("L"),
+                nuoviContagiati: currentValue.nuoviContagiati,
+                nuoviPositivi: currentValue.nuoviPositivi,
+                nuoviGuariti: currentValue.nuoviGuariti,
+                nuoviDeceduti: currentValue.nuoviDeceduti
+            });
+
+            return accumulator;
+        }, []),
+        options: {
+            lines: [
+                {
+                    label: "Contagiati",
+                    dataKey: "nuoviContagiati",
+                    color: "red"
+                },
+                {
+                    label: "Positivi",
+                    dataKey: "nuoviPositivi",
+                    color: "orange"
+                },
+                {
+                    label: "Guariti",
+                    dataKey: "nuoviGuariti",
+                    color: "green"
+                },
+                {
+                    label: "Deceduti",
+                    dataKey: "nuoviDeceduti",
+                    color: "black"
+                }
+            ]
+        }
+    };
+};
 
 const Title = ({ text }) => {
     const classes = useStyles();

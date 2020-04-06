@@ -36,8 +36,6 @@ function App() {
         dispatch(fetchStats());
     }, [dispatch]);
 
-    console.log(stats, loading, hasErrors);
-
     return (
         <MuiThemeProvider theme={theme}>
             <CssBaseline />

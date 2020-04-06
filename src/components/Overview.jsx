@@ -38,7 +38,7 @@ function Overview({ data }) {
         <Grid container className={classes.gridContainer}>
             <Grid item xs={XS} sm={SM} md={MD} lg={LG}>
                 <BoxOverview
-                    label="Totale contagiati"
+                    label="Contagiati"
                     value={totaleContagiati}
                     variance={nuoviContagiati}
                     color="red"
@@ -46,7 +46,7 @@ function Overview({ data }) {
             </Grid>
             <Grid item xs={XS} sm={SM} md={MD} lg={LG}>
                 <BoxOverview
-                    label="Attuali positivi"
+                    label="Positivi"
                     value={totalePositivi}
                     variance={nuoviPositivi}
                     color="orange"

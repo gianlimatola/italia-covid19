@@ -59,7 +59,7 @@ const CustomLineChart = ({ data }) => {
         let selectedItem = data.options.lines.find(_ => _.dataKey === name);
 
         return [
-            Intl.NumberFormat("it", { signDisplay: "always" }).format(value),
+            Intl.NumberFormat("it").format(value),
             selectedItem.label
         ];
     };
