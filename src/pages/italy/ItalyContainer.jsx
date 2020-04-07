@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import moment from "moment";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Typography, Grid, Card } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
 
 import { statsSelector } from "../../slices/stats";
+
+import { changeHeaderSubTitle } from "../../slices/app";
 
 import { Overview, PieChart, LineChart } from "../../components";
 
@@ -18,7 +20,10 @@ const useStyles = makeStyles(theme => ({
     },
     title: {
         margin: 0,
-        padding: 16
+        padding: "16px 16px 0 16px"
+    },
+    lastSync: {
+        fontSize: "0.8rem"
     }
 }));
 
@@ -27,9 +32,16 @@ function ItalyContainer() {
 
     const { stats } = useSelector(statsSelector);
 
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(changeHeaderSubTitle("Dato Nazioniale"));
+    }, [dispatch]);
+
     if (stats === null) return null;
 
     const {
+        updateDateTime,
         italy: { items }
     } = stats;
 
@@ -57,14 +69,22 @@ function ItalyContainer() {
         items
     );
 
-    const lineChartDataNuoviCasi = getLineChartDataNuoviCasi(
-        items
-    );
+    const lineChartDataNuoviCasi = getLineChartDataNuoviCasi(items);
 
     return (
         <>
             <Card>
-                <Title text="Andamento Nazionale" />
+                <Title text="Panoramica" />
+                <Typography
+                    component="h5"
+                    color="inherit"
+                    align="center"
+                    noWrap
+                    className={classes.lastSync}
+                >
+                    Dati aggiornati a{" "}
+                    {moment(updateDateTime).format("dddd D MMMM YYYY")}
+                </Typography>
 
                 <Grid container className={classes.gridContainer}>
                     <Grid item xs={12} md={8} lg={8}>

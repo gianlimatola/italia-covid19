@@ -14,6 +14,10 @@ const useStyles = makeStyles(theme => ({
     },
     toolbar: {
         justifyContent: "space-between"
+    },
+    footer: {
+        backgroundColor: theme.palette.primary.main,
+        color: "white"
     }
 }));
 
@@ -21,7 +25,7 @@ function Footer() {
     const classes = useStyles();
 
     return (
-        <AppBar position="fixed" color="primary" className={classes.appBar}>
+        <div className={classes.footer}>
             <Toolbar className={classes.toolbar}>
                 <Typography variant="body2" color="inherit" align="center">
                     Sviluppato da Gianluca Limatola
@@ -36,7 +40,23 @@ function Footer() {
                     <GitHubIcon />
                 </IconButton>
             </Toolbar>
-        </AppBar>
+        </div>
+        // <AppBar  color="primary" className={classes.appBar}>
+        //     <Toolbar className={classes.toolbar}>
+        //         <Typography variant="body2" color="inherit" align="center">
+        //             Sviluppato da Gianluca Limatola
+        //         </Typography>
+
+        //         <IconButton
+        //             color="inherit"
+        //             href="https://github.com/gianlimatola/italia-covid19"
+        //             target="_blank"
+        //             rel="noopener"
+        //         >
+        //             <GitHubIcon />
+        //         </IconButton>
+        //     </Toolbar>
+        // </AppBar>
     );
 }
 

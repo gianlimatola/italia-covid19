@@ -1,6 +1,6 @@
 import React from "react";
 
-import moment from "moment";
+// import moment from "moment";
 
 import { AppBar, Toolbar, Typography, IconButton } from "@material-ui/core";
 
@@ -13,22 +13,15 @@ const useStyles = makeStyles(theme => ({
         display: "flex",
         fontSize: "1.3rem",
         flexGrow: 1
-    },
-    toolbar: {
-        justifyContent: "space-between"
-    },
-    lastSync: {
-        display: "flex",
-        fontSize: "0.8rem"
     }
 }));
 
-function Header({ updateDateTime }) {
+function Header({ subTitle }) {
     const classes = useStyles();
 
     return (
         <AppBar position="fixed">
-            <Toolbar className={classes.toolbar}>
+            <Toolbar>
                 <IconButton
                     edge="start"
                     color="inherit"
@@ -36,30 +29,29 @@ function Header({ updateDateTime }) {
                 >
                     <MenuIcon />
                 </IconButton>
-                <Typography
-                    component="h1"
-                    variant="h1"
-                    color="inherit"
-                    noWrap
-                    className={classes.title}
-                >
-                    COVID-19
-                </Typography>
-                <Typography
-                    component="h1"
-                    variant="h5"
-                    color="inherit"
-                    noWrap
-                    className={classes.lastSync}
-                >
-                    {updateDateTime && (
-                        <>
-                            Dati aggiornati a:
-                            <br />
-                            {moment(updateDateTime).format("llll")}
-                        </>
-                    )}
-                </Typography>
+                <div>
+                    <Typography
+                        component="h1"
+                        variant="h1"
+                        color="inherit"
+                        noWrap
+                        className={classes.title}
+                    >
+                        ITALIA-COVID19
+                    </Typography>
+                    <Typography
+                        component="h5"
+                        variant="h5"
+                        color="inherit"
+                        noWrap
+                        //className={classes.title}
+                        style={{ fontSize: "0.8rem" }}
+                    >
+                        {/* Dato Nazioniale */}
+                        {/* Regione Friuli Venezia Giulia */}
+                        {subTitle}
+                    </Typography>
+                </div>
             </Toolbar>
         </AppBar>
     );
