@@ -12,7 +12,9 @@ import { statsSelector } from "../../slices/stats";
 
 import { changeHeaderSubTitle } from "../../slices/app";
 
-import { Overview, PieChart, LineChart } from "../../components";
+import { Overview, PieChart, LineChart, BarChart } from "../../components";
+
+import { regionsDictionary } from "../../data";
 
 const useStyles = makeStyles(theme => ({
     gridContainer: {
@@ -71,6 +73,10 @@ function ItalyContainer() {
 
     const lineChartDataNuoviCasi = getLineChartDataNuoviCasi(items);
 
+    const barChartDistribuzionePerRegione = getBarChartDistribuzionePerRegione(
+        stats.regions.latest
+    );
+
     return (
         <>
             <Card>
@@ -114,6 +120,19 @@ function ItalyContainer() {
                     <Grid item xs={12}>
                         <LineChart data={lineChartDataNuoviCasi} />
                     </Grid>
+                </Grid>
+            </Card>
+
+            <Card style={{ marginTop: 20 }}>
+                <Title text="Distribuzione per regione" />
+                <Grid container className={classes.gridContainer}>
+                    <Grid item xs={12}>
+                        <BarChart data={barChartDistribuzionePerRegione} />
+                    </Grid>
+
+                    {/* <Grid item xs={12}>
+                        table
+                    </Grid> */}
                 </Grid>
             </Card>
         </>
@@ -195,6 +214,56 @@ const getLineChartDataNuoviCasi = items => {
                 {
                     label: "Deceduti",
                     dataKey: "nuoviDeceduti",
+                    color: "black"
+                }
+            ]
+        }
+    };
+};
+
+const getBarChartDistribuzionePerRegione = items => {
+    return {
+        data: items
+            .reduce((accumulator, currentValue) => {
+                accumulator.push({
+                    nome: regionsDictionary.get(currentValue.codice)
+                        .descrizioneBreve,
+                    totaleContagiati: currentValue.totaleContagiati,
+                    totalePositivi: currentValue.totalePositivi,
+                    totaleGuariti: currentValue.totaleGuariti,
+                    totaleDeceduti: currentValue.totaleDeceduti
+                });
+
+                return accumulator;
+            }, [])
+            .sort((a, b) => {
+                if (a.totaleContagiati > b.totaleContagiati) {
+                    return -1;
+                }
+
+                return 1;
+            }),
+        options: {
+            height: 600,
+            bars: [
+                // {
+                //     label: "Contagiati",
+                //     dataKey: "totaleContagiati",
+                //     color: "red"
+                // },
+                {
+                    label: "Positivi",
+                    dataKey: "totalePositivi",
+                    color: "orange"
+                },
+                {
+                    label: "Guariti",
+                    dataKey: "totaleGuariti",
+                    color: "green"
+                },
+                {
+                    label: "Deceduti",
+                    dataKey: "totaleDeceduti",
                     color: "black"
                 }
             ]

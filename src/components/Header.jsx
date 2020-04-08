@@ -22,13 +22,13 @@ function Header({ subTitle }) {
     return (
         <AppBar position="fixed">
             <Toolbar>
-                <IconButton
+                {/* <IconButton
                     edge="start"
                     color="inherit"
                     aria-label="open drawer"
                 >
                     <MenuIcon />
-                </IconButton>
+                </IconButton> */}
                 <div>
                     <Typography
                         component="h1"
