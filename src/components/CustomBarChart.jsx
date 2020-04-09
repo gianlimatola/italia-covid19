@@ -1,8 +1,8 @@
 import React, { PureComponent } from "react";
+
 import {
     BarChart,
     Bar,
-    Cell,
     XAxis,
     YAxis,
     CartesianGrid,
@@ -13,11 +13,19 @@ import {
 
 function getBars(options) {
     return options.bars.map((bar, index) => {
-        return <Bar key={index} dataKey={bar.dataKey} fill={bar.color} stackId="a" />;
+        return (
+            <Bar
+                key={index}
+                dataKey={bar.dataKey}
+                fill={bar.color}
+                stackId="a"
+            />
+        );
     });
 }
 
 const CustomBarChart = ({ data }) => {
+    console.log(data);
     const bars = getBars(data.options);
 
     const renderLegend = (value, entry) => {
@@ -32,6 +40,21 @@ const CustomBarChart = ({ data }) => {
         let selectedItem = data.options.bars.find(_ => _.dataKey === name);
 
         return [Intl.NumberFormat("it").format(value), selectedItem.label];
+    };
+
+    const labelFormatterTooltip = value => {
+        let selectedItem = data.data.find(_ => _.nome === value);
+
+        return (
+            <>
+                <span style={{ marginBottom: 10, display: "block" }}>
+                    {value}
+                </span>
+                <span style={{ marginBottom: 5, display: "block", color: "red" }}>
+                    Contagiati : {Intl.NumberFormat("it").format(selectedItem.totaleContagiati)}
+                </span>
+            </>
+        );
     };
 
     return (
@@ -49,7 +72,10 @@ const CustomBarChart = ({ data }) => {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis type="number" />
                 <YAxis width={85} type="category" dataKey="nome" />
-                <Tooltip formatter={valueFormatterTooltip} />
+                <Tooltip
+                    formatter={valueFormatterTooltip}
+                    labelFormatter={labelFormatterTooltip}
+                />
                 <Legend formatter={renderLegend} />
                 {bars}
             </BarChart>

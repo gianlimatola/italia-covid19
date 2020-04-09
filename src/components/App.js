@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 
+import ReactGa from "react-ga";
+
 import {
     BrowserRouter as Router,
     Route,
@@ -19,7 +21,7 @@ import Footer from "./Footer";
 import Progress from "./Progress";
 
 import Italy from "../pages/italy/ItalyContainer";
-import Region from "../pages/region/RegionContainer";
+// import Region from "../pages/region/RegionContainer";
 
 import theme from "./theme";
 
@@ -32,7 +34,7 @@ const useStyles = makeStyles(theme => ({
         [theme.breakpoints.up("sm")]: {
             padding: 16
         },
-        minHeight: 'calc(100vh - 148px)'
+        minHeight: "calc(100vh - 148px)"
     }
 }));
 
@@ -42,9 +44,15 @@ function App() {
     const dispatch = useDispatch();
 
     const { stats, loading, hasErrors } = useSelector(statsSelector);
-    const { headerSubTitle  } = useSelector(appSelector);
+    const { headerSubTitle } = useSelector(appSelector);
 
     useEffect(() => {
+        if (process.env.NODE_ENV !== "development") {
+            ReactGa.initialize("UA-163255882-1");
+
+            ReactGa.pageview("/");
+        }
+
         dispatch(fetchStats());
     }, [dispatch]);
 

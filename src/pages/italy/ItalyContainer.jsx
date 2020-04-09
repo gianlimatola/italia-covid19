@@ -12,13 +12,9 @@ import {
     TableHead,
     TableBody,
     TableRow,
-    TableCell
+    TableCell,
+    Link
 } from "@material-ui/core";
-import {
-    createMuiTheme,
-    ThemeProvider,
-    useTheme
-} from "@material-ui/core/styles";
 
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 
@@ -111,6 +107,15 @@ function ItalyContainer() {
                 >
                     Dati aggiornati a{" "}
                     {moment(updateDateTime).format("dddd D MMMM YYYY")}
+                    <br />
+                    Fonte:{" "}
+                    <Link
+                        target="_blank"
+                        rel="noopener"
+                        href="http://www.protezionecivile.gov.it/"
+                    >
+                        Protezione Civile
+                    </Link>
                 </Typography>
 
                 <Grid container className={classes.gridContainer}>
@@ -196,9 +201,9 @@ function ItalyContainer() {
                                         minimumFractionDigits: 3,
                                         maximumFractionDigits: 3
                                     }).format(
-                                        (row.totaleContagiati /
+                                        row.totaleContagiati /
                                             regionsDictionary.get(row.codice)
-                                                .popolazione)
+                                                .popolazione
                                     )}
                                 </TableCell>
                             </TableRow>
