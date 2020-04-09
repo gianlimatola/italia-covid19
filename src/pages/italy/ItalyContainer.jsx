@@ -4,7 +4,23 @@ import moment from "moment";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { Typography, Grid, Card } from "@material-ui/core";
+import {
+    Typography,
+    Grid,
+    Card,
+    Table,
+    TableHead,
+    TableBody,
+    TableRow,
+    TableCell
+} from "@material-ui/core";
+import {
+    createMuiTheme,
+    ThemeProvider,
+    useTheme
+} from "@material-ui/core/styles";
+
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -26,11 +42,16 @@ const useStyles = makeStyles(theme => ({
     },
     lastSync: {
         fontSize: "0.8rem"
+    },
+    card: {
+        marginTop: 20
     }
 }));
 
 function ItalyContainer() {
     const classes = useStyles();
+
+    const isUpSm = useMediaQuery("(min-width:600px)"); // useMediaQuery(theme.breakpoints.up("xs"));
 
     const { stats } = useSelector(statsSelector);
 
@@ -103,7 +124,7 @@ function ItalyContainer() {
                 </Grid>
             </Card>
 
-            <Card style={{ marginTop: 20 }}>
+            <Card className={classes.card}>
                 <Title text="Andamento giornaliero" />
 
                 <Grid container className={classes.gridContainer}>
@@ -113,7 +134,7 @@ function ItalyContainer() {
                 </Grid>
             </Card>
 
-            <Card style={{ marginTop: 20 }}>
+            <Card className={classes.card}>
                 <Title text="Nuovi casi" />
 
                 <Grid container className={classes.gridContainer}>
@@ -123,17 +144,83 @@ function ItalyContainer() {
                 </Grid>
             </Card>
 
-            <Card style={{ marginTop: 20 }}>
-                <Title text="Distribuzione per regione" />
-                <Grid container className={classes.gridContainer}>
-                    <Grid item xs={12}>
-                        <BarChart data={barChartDistribuzionePerRegione} />
-                    </Grid>
+            <Card className={classes.card}>
+                <Title text="Dettaglio per regione" />
+                {/* <Typography
+                    component="h5"
+                    color="inherit"
+                    align="center"
+                    noWrap
+                    className={classes.lastSync}
+                >
+                    Dati aggiornati a{" "}
+                    {moment(updateDateTime).format("dddd D MMMM YYYY")}
+                </Typography> */}
 
-                    {/* <Grid item xs={12}>
-                        table
-                    </Grid> */}
-                </Grid>
+                <Table
+                    className={classes.table}
+                    size="small"
+                    aria-label="a dense table"
+                >
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Regione</TableCell>
+                            <TableCell align="right">Contagiati</TableCell>
+                            <TableCell align="right">
+                                % contagiati/ popolazione
+                            </TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {stats.regions.latest.map(row => (
+                            <TableRow key={row.codice}>
+                                <TableCell
+                                    component="th"
+                                    scope="row"
+                                    style={{ minWidth: 150 }}
+                                >
+                                    {isUpSm
+                                        ? regionsDictionary.get(row.codice)
+                                              .descrizione
+                                        : regionsDictionary.get(row.codice)
+                                              .descrizioneBreve}
+                                </TableCell>
+                                <TableCell align="right">
+                                    {Intl.NumberFormat("it").format(
+                                        row.totaleContagiati
+                                    )}
+                                </TableCell>
+                                <TableCell align="right">
+                                    {Intl.NumberFormat("it", {
+                                        style: "percent",
+                                        minimumFractionDigits: 3,
+                                        maximumFractionDigits: 3
+                                    }).format(
+                                        (row.totaleContagiati /
+                                            regionsDictionary.get(row.codice)
+                                                .popolazione)
+                                    )}
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </Card>
+
+            <Card className={classes.card}>
+                <Title text="Distribuzione per regione" />
+                {/* <Typography
+                    component="h5"
+                    color="inherit"
+                    align="center"
+                    noWrap
+                    className={classes.lastSync}
+                >
+                    Dati aggiornati a{" "}
+                    {moment(updateDateTime).format("dddd D MMMM YYYY")}
+                </Typography> */}
+
+                <BarChart data={barChartDistribuzionePerRegione} />
             </Card>
         </>
     );

@@ -58,10 +58,7 @@ const CustomLineChart = ({ data }) => {
     const valueFormatterTooltip = (value, name, props) => {
         let selectedItem = data.options.lines.find(_ => _.dataKey === name);
 
-        return [
-            Intl.NumberFormat("it").format(value),
-            selectedItem.label
-        ];
+        return [Intl.NumberFormat("it").format(value), selectedItem.label];
     };
 
     return (

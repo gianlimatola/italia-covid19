@@ -160,7 +160,13 @@ function fetchRegionsStats() {
 
             return {
                 items: items,
-                latest: latest
+                latest: latest.sort((a, b) => {
+                    if (a.totaleContagiati > b.totaleContagiati) {
+                        return -1;
+                    }
+
+                    return 1;
+                })
             };
         });
 }
@@ -175,7 +181,6 @@ export function fetchStats() {
             //fetch(appSettings.provincesStatsUrl).then(value => value.json())
         ])
             .then(value => {
-                console.log(value[1]);
                 dispatch(
                     getStatsSuccess({
                         updateDateTime: value[0].updateDateTime,

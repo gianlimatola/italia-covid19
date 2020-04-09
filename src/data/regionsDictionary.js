@@ -1,25 +1,124 @@
 let regionsDictionary = new Map();
 
-regionsDictionary.set(1, { descrizione: "Piemonte", descrizioneBreve: "Piemonte" });
-regionsDictionary.set(2, { descrizione: "Valle d'Aosta", descrizioneBreve: "V. d'Aosta" });
-regionsDictionary.set(3, { descrizione: "Lombardia", descrizioneBreve: "Lombardia" });
-regionsDictionary.set(4, { descrizione: "Trentino-Alto Adige", descrizioneBreve: "Tren.-Alto A." });
-regionsDictionary.set(5, { descrizione: "Veneto", descrizioneBreve: "Veneto" });
-regionsDictionary.set(6, { descrizione: "Friuli Venezia Giulia", descrizioneBreve: "Friuli V. G." });
-regionsDictionary.set(7, { descrizione: "Liguria", descrizioneBreve: "Liguria" });
-regionsDictionary.set(8, { descrizione: "Emilia-Romagna", descrizioneBreve: "Emilia R." });
-regionsDictionary.set(9, { descrizione: "Toscana", descrizioneBreve: "Toscana" });
-regionsDictionary.set(10, { descrizione: "Umbria", descrizioneBreve: "Umbria" });
-regionsDictionary.set(11, { descrizione: "Marche", descrizioneBreve: "Marche" });
-regionsDictionary.set(12, { descrizione: "Lazio", descrizioneBreve: "Lazio" });
-regionsDictionary.set(13, { descrizione: "Abruzzo", descrizioneBreve: "Abruzzo" });
-regionsDictionary.set(14, { descrizione: "Molise", descrizioneBreve: "Molise" });
-regionsDictionary.set(15, { descrizione: "Campania", descrizioneBreve: "Campania" });
-regionsDictionary.set(16, { descrizione: "Puglia", descrizioneBreve: "Puglia" });
-regionsDictionary.set(17, { descrizione: "Basilicata", descrizioneBreve: "Basilicata" });
-regionsDictionary.set(18, { descrizione: "Calabria", descrizioneBreve: "Calabria" });
-regionsDictionary.set(19, { descrizione: "Sicilia", descrizioneBreve: "Sicilia" });
-regionsDictionary.set(20, { descrizione: "Sardegna", descrizioneBreve: "Sardegna" });
-
+regionsDictionary.set(1, {
+    descrizione: "Piemonte",
+    descrizioneBreve: "Piemonte",
+    popolazione: 4356406,
+    slug: "piemonte"
+});
+regionsDictionary.set(2, {
+    descrizione: "Valle d'Aosta",
+    descrizioneBreve: "V. d'Aosta",
+    popolazione: 125666,
+    slug: "valle-d-aosta"
+});
+regionsDictionary.set(3, {
+    descrizione: "Lombardia",
+    descrizioneBreve: "Lombardia",
+    popolazione: 10060574,
+    slug: "lombardia"
+});
+regionsDictionary.set(4, {
+    descrizione: "Trentino-Alto Adige",
+    descrizioneBreve: "Tren.-Alto A.",
+    popolazione: 1072276,
+    slug: "trentino-alto-adige"
+});
+regionsDictionary.set(5, {
+    descrizione: "Veneto",
+    descrizioneBreve: "Veneto",
+    popolazione: 4905854,
+    slug: "veneto"
+});
+regionsDictionary.set(6, {
+    descrizione: "Friuli Venezia Giulia",
+    descrizioneBreve: "Friuli V. G.",
+    popolazione: 1215220,
+    slug: "friuli-venezia-giulia"
+});
+regionsDictionary.set(7, {
+    descrizione: "Liguria",
+    descrizioneBreve: "Liguria",
+    popolazione: 1550640,
+    slug: "liguria"
+});
+regionsDictionary.set(8, {
+    descrizione: "Emilia-Romagna",
+    descrizioneBreve: "Emilia R.",
+    popolazione: 4459477,
+    slug: "emilia-romagna"
+});
+regionsDictionary.set(9, {
+    descrizione: "Toscana",
+    descrizioneBreve: "Toscana",
+    popolazione: 3729641,
+    slug: "toscana"
+});
+regionsDictionary.set(10, {
+    descrizione: "Umbria",
+    descrizioneBreve: "Umbria",
+    popolazione: 882015,
+    slug: "umbria"
+});
+regionsDictionary.set(11, {
+    descrizione: "Marche",
+    descrizioneBreve: "Marche",
+    popolazione: 1525271,
+    slug: "marche"
+});
+regionsDictionary.set(12, {
+    descrizione: "Lazio",
+    descrizioneBreve: "Lazio",
+    popolazione: 5879082,
+    slug: "lazio"
+});
+regionsDictionary.set(13, {
+    descrizione: "Abruzzo",
+    descrizioneBreve: "Abruzzo",
+    popolazione: 1311580,
+    slug: "abruzzo"
+});
+regionsDictionary.set(14, {
+    descrizione: "Molise",
+    descrizioneBreve: "Molise",
+    popolazione: 305617,
+    slug: "molise"
+});
+regionsDictionary.set(15, {
+    descrizione: "Campania",
+    descrizioneBreve: "Campania",
+    popolazione: 5801692,
+    slug: "campania"
+});
+regionsDictionary.set(16, {
+    descrizione: "Puglia",
+    descrizioneBreve: "Puglia",
+    popolazione: 4029053,
+    slug: "puglia"
+});
+regionsDictionary.set(17, {
+    descrizione: "Basilicata",
+    descrizioneBreve: "Basilicata",
+    popolazione: 562869,
+    slug: "basilicata"
+});
+regionsDictionary.set(18, {
+    descrizione: "Calabria",
+    descrizioneBreve: "Calabria",
+    popolazione: 1947131,
+    slug: "calabria"
+});
+regionsDictionary.set(19, {
+    descrizione: "Sicilia",
+    descrizioneBreve: "Sicilia",
+    popolazione: 4999891,
+    slug: "sicilia"
+});
+regionsDictionary.set(20, {
+    descrizione: "Sardegna",
+    descrizioneBreve: "Sardegna",
+    popolazione: 1639591,
+    slug: "sardegna"
+});
 
 export default regionsDictionary;
