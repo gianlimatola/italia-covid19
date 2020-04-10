@@ -2,13 +2,14 @@ import React from "react";
 
 import moment from "moment";
 
-import { Typography, Grid, Card, Link, Chip } from "@material-ui/core";
+import { Typography, Grid, Card, Link } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
+import { PieChart } from "..";
 
 const useStyles = makeStyles(theme => ({
     gridContainer: {
-        padding: theme.spacing(1)
+        //padding: theme.spacing(1)
     },
     title: {
         margin: 0,
@@ -16,9 +17,10 @@ const useStyles = makeStyles(theme => ({
     },
     lastSync: {
         fontSize: "0.8rem"
+        //paddingTop:16
     },
     card: {
-        marginTop: 20
+        marginTop: theme.spacing(1)
     },
     horizontalPaper: {
         margin: theme.spacing(1),
@@ -31,21 +33,12 @@ const Overview = ({ dailyStatistics }) => {
     const classes = useStyles();
 
     const lastDayStatistics = dailyStatistics[dailyStatistics.length - 1];
+
     const penultimateDayStatistics =
         dailyStatistics[dailyStatistics.length - 2];
 
     return (
-        <Card>
-            <Typography
-                variant="h5"
-                color="primary"
-                gutterBottom
-                align="center"
-                className={classes.title}
-            >
-                Panoramica
-            </Typography>
-
+        <>
             <Typography
                 component="h5"
                 color="inherit"
@@ -66,83 +59,412 @@ const Overview = ({ dailyStatistics }) => {
                 </Link>
             </Typography>
 
-            <Grid container className={classes.gridContainer}>
-                {getStatisticsBoxList(
-                    lastDayStatistics,
-                    penultimateDayStatistics
-                ).map(statisticsBox => {
-                    const { ...rest } = statisticsBox;
+            <Grid container>
+                <Grid item xs={12}>
+                    <BoxTotalCases lastDayStatistics={lastDayStatistics} />
+                </Grid>
 
-                    return (
-                        <Grid key={statisticsBox.label} item xs={12} sm={6}>
-                            <BoxOverview {...rest} />
-                        </Grid>
-                    );
-                })}
+                <Grid item xs={12} style={{ marginTop: 8 }}>
+                    <BoxActiveCases
+                        lastDayStatistics={lastDayStatistics}
+                        penultimateDayStatistics={penultimateDayStatistics}
+                    />
+                </Grid>
+
+                <Grid item xs={12} style={{ marginTop: 8 }}>
+                    <BoxClosedCases
+                        lastDayStatistics={lastDayStatistics}
+                        penultimateDayStatistics={penultimateDayStatistics}
+                    />
+                </Grid>
             </Grid>
-        </Card>
+        </>
     );
 };
 
 export default Overview;
 
-function getStatisticsBoxList(lastDayStatistics, penultimateDayStatistics) {
-    return [
-        {
-            label: "Contagiati",
-            value: lastDayStatistics.totaleContagiati,
-            variance: lastDayStatistics.nuoviContagiati,
-            color: "red"
-        },
-        {
-            label: "Positivi",
-            value: lastDayStatistics.totalePositivi,
-            variance: lastDayStatistics.nuoviPositivi,
-            color: "orange"
-        },
-        {
-            label: "Guariti",
-            value: lastDayStatistics.totaleGuariti,
-            variance: lastDayStatistics.nuoviGuariti,
-            color: "green"
-        },
-        {
-            label: "Deceduti",
-            value: lastDayStatistics.totaleDeceduti,
-            variance: lastDayStatistics.nuoviDeceduti,
-            color: "black"
-        }
-    ];
-}
-
-const BoxOverview = ({ label, value, variance, color }) => {
+const BoxTotalCases = ({ lastDayStatistics }) => {
     const classes = useStyles();
 
     return (
-        <div className={classes.horizontalPaper}>
+        <Card style={{ marginTop: 8 }}>
+            <BoxTitle title="Casi totali" />
+
+            <div className={classes.horizontalPaper}>
+                <Typography
+                    variant="h3"
+                    gutterBottom
+                    style={{ marginBottom: 0, color: "red" }}
+                >
+                    {Intl.NumberFormat("it").format(
+                        lastDayStatistics.totaleContagiati
+                    )}
+                </Typography>
+                <Typography
+                    className={classes.content}
+                    style={{ marginBottom: 0, color: "red" }}
+                    gutterBottom
+                >
+                    (
+                    {Intl.NumberFormat("it", {
+                        signDisplay: "always"
+                    }).format(lastDayStatistics.nuoviContagiati)}
+                    )
+                </Typography>
+            </div>
+        </Card>
+    );
+};
+
+const BoxActiveCases = ({ lastDayStatistics, penultimateDayStatistics }) => {
+    const classes = useStyles();
+
+    const pieChartData = [
+        {
+            name: "Ricov. con sintomi",
+            value: lastDayStatistics.totaleRicoveratiConSintomi,
+            color: "#ed723c"
+        },
+        {
+            name: "In terapia intensiva",
+            value: lastDayStatistics.totaleTerapiaIntensiva,
+            color: "#7a0000"
+        },
+        {
+            name: "Isolamento dom.",
+            value: lastDayStatistics.totaleIsolamentoDomiciliare,
+            color: "#ffb244"
+        }
+    ];
+
+    return (
+        <Card>
+            <BoxTitle title="Casi attivi" />
+
+            <div className={classes.horizontalPaper}>
+                <Typography
+                    component="h5"
+                    color="inherit"
+                    align="center"
+                    noWrap
+                    style={{ marginBottom: 0, color: "orange" }}
+                >
+                    Pazienti attualmente infetti
+                </Typography>
+
+                <Typography
+                    variant="h3"
+                    gutterBottom
+                    style={{ marginBottom: 0, color: "orange" }}
+                >
+                    {Intl.NumberFormat("it").format(
+                        lastDayStatistics.totalePositivi
+                    )}
+                </Typography>
+
+                <Typography
+                    className={classes.content}
+                    style={{ marginBottom: 0, color: "orange" }}
+                    gutterBottom
+                >
+                    (
+                    {Intl.NumberFormat("it", {
+                        signDisplay: "always"
+                    }).format(lastDayStatistics.nuoviPositivi)}
+                    )
+                </Typography>
+            </div>
+
+            <Grid container>
+                <Grid item xs={12} sm={5}>
+                    <PieChart data={pieChartData} />
+                </Grid>
+                <Grid item xs={12} sm={7}>
+                    <Grid container>
+                        <Grid item xs={6} sm={4}>
+                            <BoxSpecificCase
+                                title="Ricov. con sintomi"
+                                value={
+                                    lastDayStatistics.totaleRicoveratiConSintomi
+                                }
+                                previousValue={
+                                    penultimateDayStatistics.totaleRicoveratiConSintomi
+                                }
+                                variance={
+                                    lastDayStatistics.nuoviRicoveratiConSintomi
+                                }
+                                percentage={Intl.NumberFormat("it", {
+                                    style: "percent",
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2
+                                }).format(
+                                    lastDayStatistics.totaleRicoveratiConSintomi /
+                                        lastDayStatistics.totalePositivi
+                                )}
+                                color="#ed723c"
+                            />
+                        </Grid>
+
+                        <Grid item xs={6} sm={4}>
+                            <BoxSpecificCase
+                                title="In terapia intensiva"
+                                value={lastDayStatistics.totaleTerapiaIntensiva}
+                                previousValue={
+                                    penultimateDayStatistics.totaleTerapiaIntensiva
+                                }
+                                variance={
+                                    lastDayStatistics.nuoviTerapiaIntensiva
+                                }
+                                percentage={Intl.NumberFormat("it", {
+                                    style: "percent",
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2
+                                }).format(
+                                    lastDayStatistics.totaleTerapiaIntensiva /
+                                        lastDayStatistics.totalePositivi
+                                )}
+                                color="#7a0000"
+                            />
+                        </Grid>
+
+                        <Grid item xs={12} sm={4}>
+                            <BoxSpecificCase
+                                title="Isolamento dom."
+                                value={
+                                    lastDayStatistics.totaleIsolamentoDomiciliare
+                                }
+                                previousValue={
+                                    penultimateDayStatistics.totaleIsolamentoDomiciliare
+                                }
+                                variance={
+                                    lastDayStatistics.nuoviIsolamentoDomiciliare
+                                }
+                                percentage={Intl.NumberFormat("it", {
+                                    style: "percent",
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2
+                                }).format(
+                                    lastDayStatistics.totaleIsolamentoDomiciliare /
+                                        lastDayStatistics.totalePositivi
+                                )}
+                                color="#ffb244"
+                            />
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Card>
+    );
+};
+
+const BoxClosedCases = ({ lastDayStatistics, penultimateDayStatistics }) => {
+    const classes = useStyles();
+
+    const pieChartData = [
+        {
+            name: "Guariti",
+            value: lastDayStatistics.totaleGuariti,
+            color: "green"
+        },
+        {
+            name: "Deceduti",
+            value: lastDayStatistics.totaleDeceduti,
+            color: "black"
+        }
+    ];
+
+    const totaleCasiChiusi =
+        lastDayStatistics.totaleGuariti + lastDayStatistics.totaleDeceduti;
+
+    const nuoviCasiChiusi =
+        lastDayStatistics.nuoviGuariti + lastDayStatistics.nuoviDeceduti;
+
+    return (
+        <Card>
+            <BoxTitle title="Casi chiusi" />
+
+            <div className={classes.horizontalPaper}>
+                <Typography
+                    component="h5"
+                    color="inherit"
+                    align="center"
+                    noWrap
+                    style={{ marginBottom: 0, color: "#aaa" }}
+                >
+                    Casi che hanno avuto esito
+                </Typography>
+
+                <Typography
+                    variant="h3"
+                    gutterBottom
+                    style={{ marginBottom: 0, color: "#aaa" }}
+                >
+                    {Intl.NumberFormat("it").format(totaleCasiChiusi)}
+                </Typography>
+
+                <Typography
+                    className={classes.content}
+                    style={{ marginBottom: 0, color: "#aaa" }}
+                    gutterBottom
+                >
+                    (
+                    {Intl.NumberFormat("it", {
+                        signDisplay: "always"
+                    }).format(nuoviCasiChiusi)}
+                    )
+                </Typography>
+            </div>
+
+            <Grid container>
+                <Grid item xs={12} sm={5}>
+                    <PieChart data={pieChartData} />
+                </Grid>
+
+                <Grid item xs={12} sm={7}>
+                    <Grid container>
+                        <Grid item xs={6}>
+                            <BoxSpecificCase
+                                title="Guariti"
+                                value={lastDayStatistics.totaleGuariti}
+                                previousValue={
+                                    penultimateDayStatistics.totaleGuariti
+                                }
+                                variance={lastDayStatistics.nuoviGuariti}
+                                percentage={Intl.NumberFormat("it", {
+                                    style: "percent",
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2
+                                }).format(
+                                    lastDayStatistics.totaleGuariti /
+                                        totaleCasiChiusi
+                                )}
+                                color="green"
+                            />
+                        </Grid>
+
+                        <Grid item xs={6}>
+                            <BoxSpecificCase
+                                title="Deceduti"
+                                value={lastDayStatistics.totaleDeceduti}
+                                previousValue={
+                                    penultimateDayStatistics.totaleDeceduti
+                                }
+                                variance={lastDayStatistics.nuoviDeceduti}
+                                percentage={Intl.NumberFormat("it", {
+                                    style: "percent",
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2
+                                }).format(
+                                    lastDayStatistics.totaleDeceduti /
+                                        totaleCasiChiusi
+                                )}
+                                color="black"
+                            />
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Card>
+    );
+};
+
+const BoxTitle = ({ title }) => {
+    const classes = useStyles();
+
+    return (
+        <Typography
+            variant="h4"
+            color="primary"
+            gutterBottom
+            align="center"
+            className={classes.title}
+        >
+            {title}
+        </Typography>
+    );
+};
+
+const BoxSpecificCase = ({
+    title,
+    value,
+    previousValue,
+    variance,
+    percentage,
+    color
+}) => {
+    const classes = useStyles();
+
+    const percentageComparedPreviousDay =
+        (value - previousValue) / previousValue;
+
+    return (
+        <div
+            className={classes.horizontalPaper}
+            style={{ maxWidth: 180, margin: "auto" }}
+        >
             <Typography
-                variant="h3"
+                component="h5"
+                color="inherit"
+                align="center"
+                noWrap
+                style={{
+                    marginBottom: 0,
+                    color: color
+                }}
+            >
+                {title}
+            </Typography>
+
+            <Typography
+                variant="h4"
                 gutterBottom
-                style={{ marginBottom: 0, color: color }}
+                style={{
+                    marginBottom: 0,
+                    color: color
+                }}
             >
                 {Intl.NumberFormat("it").format(value)}
             </Typography>
+
             <Typography
-                className={classes.content}
-                style={{ marginBottom: 0, color: color }}
+                variant="h5"
                 gutterBottom
+                style={{
+                    marginBottom: 0,
+                    fontSize: "0.95rem",
+                    color: color
+                }}
             >
-                (
-                {Intl.NumberFormat("it", { signDisplay: "always" }).format(
-                    variance
-                )}
-                )
+                ({percentage})
             </Typography>
-            <Chip
-                color="secondary"
-                style={{ backgroundColor: color }}
-                label={label}
-            />
+
+            <Typography
+                component="h5"
+                color="inherit"
+                align="center"
+                style={{
+                    fontSize: "0.8rem"
+                }}
+            >
+                <b>
+                    {Intl.NumberFormat("it", {
+                        signDisplay: "always"
+                    }).format(variance)}
+                </b>{" "}
+                <b>
+                    (
+                    {Intl.NumberFormat("it", {
+                        signDisplay: "always",
+                        style: "percent",
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    }).format(percentageComparedPreviousDay)}
+                    )
+                </b>{" "}
+                rispetto al giorno precedente che erano{" "}
+                <b>{Intl.NumberFormat("it").format(previousValue)}</b>
+            </Typography>
         </div>
     );
 };

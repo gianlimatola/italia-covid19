@@ -81,7 +81,7 @@ function fetchItalyStats() {
 
                         totaleRicoveratiConSintomi:
                             currentValue.ricoverati_con_sintomi,
-                        nuoviIsolamentoDomiciliare:
+                        nuoviRicoveratiConSintomi:
                             currentIndex === 0
                                 ? currentValue.ricoverati_con_sintomi
                                 : currentValue.ricoverati_con_sintomi -
