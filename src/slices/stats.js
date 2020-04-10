@@ -62,7 +62,31 @@ function fetchItalyStats() {
                             currentIndex === 0
                                 ? currentValue.deceduti
                                 : currentValue.deceduti -
-                                  accumulator[currentIndex - 1].totaleDeceduti
+                                  accumulator[currentIndex - 1].totaleDeceduti,
+                        totaleTerapiaIntensiva: currentValue.terapia_intensiva,
+                        nuoviTerapiaIntensiva:
+                            currentIndex === 0
+                                ? currentValue.terapia_intensiva
+                                : currentValue.terapia_intensiva -
+                                  accumulator[currentIndex - 1]
+                                      .totaleTerapiaIntensiva,
+                        totaleIsolamentoDomiciliare:
+                            currentValue.isolamento_domiciliare,
+                        nuoviIsolamentoDomiciliare:
+                            currentIndex === 0
+                                ? currentValue.isolamento_domiciliare
+                                : currentValue.isolamento_domiciliare -
+                                  accumulator[currentIndex - 1]
+                                      .totaleIsolamentoDomiciliare,
+
+                        totaleRicoveratiConSintomi:
+                            currentValue.ricoverati_con_sintomi,
+                        nuoviIsolamentoDomiciliare:
+                            currentIndex === 0
+                                ? currentValue.ricoverati_con_sintomi
+                                : currentValue.ricoverati_con_sintomi -
+                                  accumulator[currentIndex - 1]
+                                      .totaleRicoveratiConSintomi
                     });
 
                     return accumulator;

@@ -31,8 +31,9 @@ const useStyles = makeStyles(theme => ({
     offset: theme.mixins.toolbar,
     container: {
         marginBottom: 20,
+        paddingTop: 8,
         [theme.breakpoints.up("sm")]: {
-            padding: 16
+            padding: 8
         },
         minHeight: "calc(100vh - 148px)"
     }

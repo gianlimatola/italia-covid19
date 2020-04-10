@@ -24,7 +24,7 @@ import { statsSelector } from "../../slices/stats";
 
 import { changeHeaderSubTitle } from "../../slices/app";
 
-import { Overview, PieChart, LineChart, BarChart } from "../../components";
+import { Overview, LineChart, BarChart } from "../../components";
 
 import { regionsDictionary } from "../../data";
 
@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
         fontSize: "0.8rem"
     },
     card: {
-        marginTop: 20
+        marginTop: 8
     }
 }));
 
@@ -96,38 +96,7 @@ function ItalyContainer() {
 
     return (
         <>
-            <Card>
-                <Title text="Panoramica" />
-                <Typography
-                    component="h5"
-                    color="inherit"
-                    align="center"
-                    noWrap
-                    className={classes.lastSync}
-                >
-                    Dati aggiornati a{" "}
-                    {moment(updateDateTime).format("dddd D MMMM YYYY")}
-                    <br />
-                    Fonte:{" "}
-                    <Link
-                        target="_blank"
-                        rel="noopener"
-                        href="http://www.protezionecivile.gov.it/"
-                    >
-                        Protezione Civile
-                    </Link>
-                </Typography>
-
-                <Grid container className={classes.gridContainer}>
-                    <Grid item xs={12} md={8} lg={8}>
-                        <Overview data={overview} />
-                    </Grid>
-
-                    <Grid item xs={12} md={4} lg={4}>
-                        <PieChart data={pieChartData} />
-                    </Grid>
-                </Grid>
-            </Card>
+            <Overview dailyStatistics={items} />
 
             <Card className={classes.card}>
                 <Title text="Andamento giornaliero" />
@@ -151,16 +120,6 @@ function ItalyContainer() {
 
             <Card className={classes.card}>
                 <Title text="Dettaglio per regione" />
-                {/* <Typography
-                    component="h5"
-                    color="inherit"
-                    align="center"
-                    noWrap
-                    className={classes.lastSync}
-                >
-                    Dati aggiornati a{" "}
-                    {moment(updateDateTime).format("dddd D MMMM YYYY")}
-                </Typography> */}
 
                 <Table
                     className={classes.table}
@@ -214,16 +173,6 @@ function ItalyContainer() {
 
             <Card className={classes.card}>
                 <Title text="Distribuzione per regione" />
-                {/* <Typography
-                    component="h5"
-                    color="inherit"
-                    align="center"
-                    noWrap
-                    className={classes.lastSync}
-                >
-                    Dati aggiornati a{" "}
-                    {moment(updateDateTime).format("dddd D MMMM YYYY")}
-                </Typography> */}
 
                 <BarChart data={barChartDistribuzionePerRegione} />
             </Card>

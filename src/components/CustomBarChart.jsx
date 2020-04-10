@@ -25,7 +25,6 @@ function getBars(options) {
 }
 
 const CustomBarChart = ({ data }) => {
-    console.log(data);
     const bars = getBars(data.options);
 
     const renderLegend = (value, entry) => {
