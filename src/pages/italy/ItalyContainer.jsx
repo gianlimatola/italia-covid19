@@ -1,20 +1,10 @@
 import React, { useEffect } from "react";
 
-import moment from "moment";
+import ReactGa from "react-ga";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-    Typography,
-    Grid,
-    Card,
-    Table,
-    TableHead,
-    TableBody,
-    TableRow,
-    TableCell,
-    Link
-} from "@material-ui/core";
+import { Typography, Card } from "@material-ui/core";
 
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 
@@ -22,26 +12,35 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { statsSelector } from "../../slices/stats";
 
-import { changeHeaderSubTitle } from "../../slices/app";
+import {
+    changeHeaderSubTitle,
+    changeCloseButtonVisibility,
+} from "../../slices/app";
 
-import { Overview, LineChart, BarChart } from "../../components";
+import {
+    Overview,
+    BarChart,
+    DailyTrendLineChart,
+    NewCasesLineChart,
+    DetailTable,
+} from "../../components";
 
 import { regionsDictionary } from "../../data";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
     gridContainer: {
-        padding: theme.spacing(1)
+        padding: theme.spacing(1),
     },
     title: {
         margin: 0,
-        padding: "16px 16px 0 16px"
+        padding: "16px 16px 0 16px",
     },
     lastSync: {
-        fontSize: "0.8rem"
+        fontSize: "0.8rem",
     },
     card: {
-        marginTop: 8
-    }
+        marginTop: 8,
+    },
 }));
 
 function ItalyContainer() {
@@ -54,71 +53,64 @@ function ItalyContainer() {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        if (process.env.NODE_ENV !== "development") {
+            ReactGa.initialize("UA-163255882-1");
+
+            ReactGa.pageview("/");
+        }
+
         dispatch(changeHeaderSubTitle("Dato Nazioniale"));
+
+        dispatch(changeCloseButtonVisibility(false));
     }, [dispatch]);
 
     if (stats === null) return null;
 
     const {
-        updateDateTime,
-        italy: { items }
+        italy: { items },
+        regions,
     } = stats;
-
-    const overview = items[items.length - 1];
-
-    const pieChartData = [
-        {
-            name: "Positivi",
-            value: overview.totalePositivi,
-            color: "orange"
-        },
-        {
-            name: "Guariti",
-            value: overview.totaleGuariti,
-            color: "green"
-        },
-        {
-            name: "Deceduti",
-            value: overview.totaleDeceduti,
-            color: "black"
-        }
-    ];
-
-    const lineChartDataAndamentoGiornaliero = getLineChartDataAndamentoGiornaliero(
-        items
-    );
-
-    const lineChartDataNuoviCasi = getLineChartDataNuoviCasi(items);
 
     const barChartDistribuzionePerRegione = getBarChartDistribuzionePerRegione(
         stats.regions.latest
     );
 
+    const detailTableData = regions.latest
+        .map((region) => {
+            const regione = regionsDictionary.get(region.codice);
+
+            return {
+                codice: region.codice,
+                descrizione: regione ? regione.descrizione : "",
+                descrizioneBreve: regione ? regione.descrizioneBreve : "",
+                totaleContagiati: region.totaleContagiati,
+                popolazione: regione ? regione.popolazione : 0,
+                link: regione ? regione.slug : null,
+            };
+        })
+        .sort((a, b) => {
+            if (a.totaleContagiati > b.totaleContagiati) {
+                return -1;
+            }
+
+            return 1;
+        });
+
     return (
         <>
             <Overview dailyStatistics={items} />
 
-            <Card className={classes.card}>
-                <Title text="Andamento giornaliero" />
+            <DailyTrendLineChart data={items} />
 
-                <Grid container className={classes.gridContainer}>
-                    <Grid item xs={12}>
-                        <LineChart data={lineChartDataAndamentoGiornaliero} />
-                    </Grid>
-                </Grid>
-            </Card>
+            <NewCasesLineChart data={items} />
 
-            <Card className={classes.card}>
-                <Title text="Nuovi casi" />
+            <DetailTable
+                data={detailTableData}
+                title="Dettaglio per regione"
+                descriptionLabel="Regione"
+            />
 
-                <Grid container className={classes.gridContainer}>
-                    <Grid item xs={12}>
-                        <LineChart data={lineChartDataNuoviCasi} />
-                    </Grid>
-                </Grid>
-            </Card>
-
-            <Card className={classes.card}>
+            {/* <Card className={classes.card}>
                 <Title text="Dettaglio per regione" />
 
                 <Table
@@ -169,7 +161,7 @@ function ItalyContainer() {
                         ))}
                     </TableBody>
                 </Table>
-            </Card>
+            </Card> */}
 
             <Card className={classes.card}>
                 <Title text="Distribuzione per regione" />
@@ -182,87 +174,7 @@ function ItalyContainer() {
 
 export default ItalyContainer;
 
-const getLineChartDataAndamentoGiornaliero = items => {
-    return {
-        data: items.reduce((accumulator, currentValue) => {
-            accumulator.push({
-                data: moment(currentValue.data).format("L"),
-                totaleContagiati: currentValue.totaleContagiati,
-                totalePositivi: currentValue.totalePositivi,
-                totaleGuariti: currentValue.totaleGuariti,
-                totaleDeceduti: currentValue.totaleDeceduti
-            });
-
-            return accumulator;
-        }, []),
-        options: {
-            lines: [
-                {
-                    label: "Contagiati",
-                    dataKey: "totaleContagiati",
-                    color: "red"
-                },
-                {
-                    label: "Positivi",
-                    dataKey: "totalePositivi",
-                    color: "orange"
-                },
-                {
-                    label: "Guariti",
-                    dataKey: "totaleGuariti",
-                    color: "green"
-                },
-                {
-                    label: "Deceduti",
-                    dataKey: "totaleDeceduti",
-                    color: "black"
-                }
-            ]
-        }
-    };
-};
-
-const getLineChartDataNuoviCasi = items => {
-    return {
-        data: items.reduce((accumulator, currentValue) => {
-            accumulator.push({
-                data: moment(currentValue.data).format("L"),
-                nuoviContagiati: currentValue.nuoviContagiati,
-                nuoviPositivi: currentValue.nuoviPositivi,
-                nuoviGuariti: currentValue.nuoviGuariti,
-                nuoviDeceduti: currentValue.nuoviDeceduti
-            });
-
-            return accumulator;
-        }, []),
-        options: {
-            lines: [
-                {
-                    label: "Contagiati",
-                    dataKey: "nuoviContagiati",
-                    color: "red"
-                },
-                {
-                    label: "Positivi",
-                    dataKey: "nuoviPositivi",
-                    color: "orange"
-                },
-                {
-                    label: "Guariti",
-                    dataKey: "nuoviGuariti",
-                    color: "green"
-                },
-                {
-                    label: "Deceduti",
-                    dataKey: "nuoviDeceduti",
-                    color: "black"
-                }
-            ]
-        }
-    };
-};
-
-const getBarChartDistribuzionePerRegione = items => {
+const getBarChartDistribuzionePerRegione = (items) => {
     return {
         data: items
             .reduce((accumulator, currentValue) => {
@@ -272,7 +184,7 @@ const getBarChartDistribuzionePerRegione = items => {
                     totaleContagiati: currentValue.totaleContagiati,
                     totalePositivi: currentValue.totalePositivi,
                     totaleGuariti: currentValue.totaleGuariti,
-                    totaleDeceduti: currentValue.totaleDeceduti
+                    totaleDeceduti: currentValue.totaleDeceduti,
                 });
 
                 return accumulator;
@@ -295,20 +207,20 @@ const getBarChartDistribuzionePerRegione = items => {
                 {
                     label: "Positivi",
                     dataKey: "totalePositivi",
-                    color: "orange"
+                    color: "orange",
                 },
                 {
                     label: "Guariti",
                     dataKey: "totaleGuariti",
-                    color: "green"
+                    color: "green",
                 },
                 {
                     label: "Deceduti",
                     dataKey: "totaleDeceduti",
-                    color: "black"
-                }
-            ]
-        }
+                    color: "black",
+                },
+            ],
+        },
     };
 };
 

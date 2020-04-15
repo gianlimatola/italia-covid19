@@ -1,12 +1,10 @@
 import React, { useEffect } from "react";
 
-import ReactGa from "react-ga";
-
 import {
     BrowserRouter as Router,
     Route,
     Switch,
-    Redirect
+    Redirect,
 } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -21,22 +19,22 @@ import Footer from "./Footer";
 import Progress from "./Progress";
 
 import Italy from "../pages/italy/ItalyContainer";
-// import Region from "../pages/region/RegionContainer";
+import Region from "../pages/region/RegionContainer";
 
 import theme from "./theme";
 
 import { CssBaseline } from "@material-ui/core";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
     offset: theme.mixins.toolbar,
     container: {
         marginBottom: 20,
         paddingTop: 8,
         [theme.breakpoints.up("sm")]: {
-            padding: 8
+            padding: 8,
         },
-        minHeight: "calc(100vh - 148px)"
-    }
+        minHeight: "calc(100vh - 148px)",
+    },
 }));
 
 function App() {
@@ -44,15 +42,11 @@ function App() {
 
     const dispatch = useDispatch();
 
-    const { stats, loading, hasErrors } = useSelector(statsSelector);
-    const { headerSubTitle } = useSelector(appSelector);
+    const { loading } = useSelector(statsSelector);
+    const { headerSubTitle, closeButton } = useSelector(appSelector);
 
     useEffect(() => {
-        if (process.env.NODE_ENV !== "development") {
-            ReactGa.initialize("UA-163255882-1");
-
-            ReactGa.pageview("/");
-        }
+        
 
         dispatch(fetchStats());
     }, [dispatch]);
@@ -60,26 +54,26 @@ function App() {
     return (
         <MuiThemeProvider theme={theme}>
             <CssBaseline />
-            <Header subTitle={headerSubTitle} />
-            <div className={classes.offset} />
-            <div className={classes.container}>
-                {loading && <Progress />}
-                {!loading && (
-                    <Router>
+            <Router>
+                <Header subTitle={headerSubTitle} showCloseButton={closeButton}/>
+                <div className={classes.offset} />
+                <div className={classes.container}>
+                    {loading && <Progress />}
+                    {!loading && (
                         <Switch>
-                            {/* <Route
+                            <Route
                                 exact
                                 strict
                                 path="/:region"
                                 component={Region}
-                            /> */}
+                            />
                             <Route exact strict path="/" component={Italy} />
                             <Redirect to="/" />
                         </Switch>
-                    </Router>
-                )}
-            </div>
-            {!loading && <Footer />}
+                    )}
+                </div>
+                {!loading && <Footer />}
+            </Router>
         </MuiThemeProvider>
     );
 }

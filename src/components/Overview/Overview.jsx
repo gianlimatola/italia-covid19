@@ -2,36 +2,12 @@ import React from "react";
 
 import moment from "moment";
 
-import { Typography, Grid, Card, Link } from "@material-ui/core";
+import { Typography, Grid, Link } from "@material-ui/core";
 
-import { makeStyles } from "@material-ui/core/styles";
 import { PieChart } from "..";
-
-const useStyles = makeStyles(theme => ({
-    gridContainer: {
-        //padding: theme.spacing(1)
-    },
-    title: {
-        margin: 0,
-        padding: "16px 16px 0 16px"
-    },
-    lastSync: {
-        fontSize: "0.8rem"
-        //paddingTop:16
-    },
-    card: {
-        marginTop: theme.spacing(1)
-    },
-    horizontalPaper: {
-        margin: theme.spacing(1),
-        padding: theme.spacing(2),
-        textAlign: "center"
-    }
-}));
+import CustomCard from "../CustomCard";
 
 const Overview = ({ dailyStatistics }) => {
-    const classes = useStyles();
-
     const lastDayStatistics = dailyStatistics[dailyStatistics.length - 1];
 
     const penultimateDayStatistics =
@@ -44,7 +20,7 @@ const Overview = ({ dailyStatistics }) => {
                 color="inherit"
                 align="center"
                 noWrap
-                className={classes.lastSync}
+                style={{ fontSize: "0.8rem" }}
             >
                 Dati aggiornati a{" "}
                 {moment(lastDayStatistics.data).format("dddd D MMMM YYYY")}
@@ -85,41 +61,34 @@ const Overview = ({ dailyStatistics }) => {
 export default Overview;
 
 const BoxTotalCases = ({ lastDayStatistics }) => {
-    const classes = useStyles();
-
     return (
-        <Card style={{ marginTop: 8 }}>
-            <BoxTitle title="Casi totali" />
-
-            <div className={classes.horizontalPaper}>
-                <Typography
-                    variant="h3"
-                    gutterBottom
-                    style={{ marginBottom: 0, color: "red" }}
-                >
-                    {Intl.NumberFormat("it").format(
-                        lastDayStatistics.totaleContagiati
-                    )}
-                </Typography>
-                <Typography
-                    className={classes.content}
-                    style={{ marginBottom: 0, color: "red" }}
-                    gutterBottom
-                >
-                    (
-                    {Intl.NumberFormat("it", {
-                        signDisplay: "always"
-                    }).format(lastDayStatistics.nuoviContagiati)}
-                    )
-                </Typography>
-            </div>
-        </Card>
+        <CustomCard title="Casi totali">
+            <Typography
+                align="center"
+                variant="h3"
+                gutterBottom
+                style={{ marginBottom: 0, color: "red" }}
+            >
+                {Intl.NumberFormat("it").format(
+                    lastDayStatistics.totaleContagiati
+                )}
+            </Typography>
+            <Typography
+                align="center"
+                style={{ marginBottom: 0, color: "red" }}
+                gutterBottom
+            >
+                (
+                {Intl.NumberFormat("it", {
+                    signDisplay: "always"
+                }).format(lastDayStatistics.nuoviContagiati)}
+                )
+            </Typography>
+        </CustomCard>
     );
 };
 
 const BoxActiveCases = ({ lastDayStatistics, penultimateDayStatistics }) => {
-    const classes = useStyles();
-
     const pieChartData = [
         {
             name: "Ricov. con sintomi",
@@ -139,49 +108,47 @@ const BoxActiveCases = ({ lastDayStatistics, penultimateDayStatistics }) => {
     ];
 
     return (
-        <Card>
-            <BoxTitle title="Casi attivi" />
+        <CustomCard title="Casi attivi">
+            <Typography
+                align="center"
+                component="h5"
+                color="inherit"
+                align="center"
+                noWrap
+                style={{ marginBottom: 0, color: "orange" }}
+            >
+                Pazienti attualmente infetti
+            </Typography>
 
-            <div className={classes.horizontalPaper}>
-                <Typography
-                    component="h5"
-                    color="inherit"
-                    align="center"
-                    noWrap
-                    style={{ marginBottom: 0, color: "orange" }}
-                >
-                    Pazienti attualmente infetti
-                </Typography>
+            <Typography
+                align="center"
+                variant="h3"
+                gutterBottom
+                style={{ marginBottom: 0, color: "orange" }}
+            >
+                {Intl.NumberFormat("it").format(
+                    lastDayStatistics.totalePositivi
+                )}
+            </Typography>
 
-                <Typography
-                    variant="h3"
-                    gutterBottom
-                    style={{ marginBottom: 0, color: "orange" }}
-                >
-                    {Intl.NumberFormat("it").format(
-                        lastDayStatistics.totalePositivi
-                    )}
-                </Typography>
-
-                <Typography
-                    className={classes.content}
-                    style={{ marginBottom: 0, color: "orange" }}
-                    gutterBottom
-                >
-                    (
-                    {Intl.NumberFormat("it", {
-                        signDisplay: "always"
-                    }).format(lastDayStatistics.nuoviPositivi)}
-                    )
-                </Typography>
-            </div>
+            <Typography
+                align="center"
+                style={{ marginBottom: 0, color: "orange" }}
+                gutterBottom
+            >
+                (
+                {Intl.NumberFormat("it", {
+                    signDisplay: "always"
+                }).format(lastDayStatistics.nuoviPositivi)}
+                )
+            </Typography>
 
             <Grid container>
                 <Grid item xs={12} sm={5}>
                     <PieChart data={pieChartData} />
                 </Grid>
                 <Grid item xs={12} sm={7}>
-                    <Grid container>
+                    <Grid container className={"SpecificCasesContainer"}>
                         <Grid item xs={6} sm={4}>
                             <BoxSpecificCase
                                 title="Ricov. con sintomi"
@@ -254,13 +221,11 @@ const BoxActiveCases = ({ lastDayStatistics, penultimateDayStatistics }) => {
                     </Grid>
                 </Grid>
             </Grid>
-        </Card>
+        </CustomCard>
     );
 };
 
 const BoxClosedCases = ({ lastDayStatistics, penultimateDayStatistics }) => {
-    const classes = useStyles();
-
     const pieChartData = [
         {
             name: "Guariti",
@@ -281,40 +246,37 @@ const BoxClosedCases = ({ lastDayStatistics, penultimateDayStatistics }) => {
         lastDayStatistics.nuoviGuariti + lastDayStatistics.nuoviDeceduti;
 
     return (
-        <Card>
-            <BoxTitle title="Casi chiusi" />
+        <CustomCard title="Casi chiusi">
+            <Typography
+                align="center"
+                component="h5"
+                color="inherit"
+                noWrap
+                style={{ marginBottom: 0, color: "#aaa" }}
+            >
+                Casi che hanno avuto esito
+            </Typography>
 
-            <div className={classes.horizontalPaper}>
-                <Typography
-                    component="h5"
-                    color="inherit"
-                    align="center"
-                    noWrap
-                    style={{ marginBottom: 0, color: "#aaa" }}
-                >
-                    Casi che hanno avuto esito
-                </Typography>
+            <Typography
+                align="center"
+                variant="h3"
+                gutterBottom
+                style={{ marginBottom: 0, color: "#aaa" }}
+            >
+                {Intl.NumberFormat("it").format(totaleCasiChiusi)}
+            </Typography>
 
-                <Typography
-                    variant="h3"
-                    gutterBottom
-                    style={{ marginBottom: 0, color: "#aaa" }}
-                >
-                    {Intl.NumberFormat("it").format(totaleCasiChiusi)}
-                </Typography>
-
-                <Typography
-                    className={classes.content}
-                    style={{ marginBottom: 0, color: "#aaa" }}
-                    gutterBottom
-                >
-                    (
-                    {Intl.NumberFormat("it", {
-                        signDisplay: "always"
-                    }).format(nuoviCasiChiusi)}
-                    )
-                </Typography>
-            </div>
+            <Typography
+                align="center"
+                style={{ marginBottom: 0, color: "#aaa" }}
+                gutterBottom
+            >
+                (
+                {Intl.NumberFormat("it", {
+                    signDisplay: "always"
+                }).format(nuoviCasiChiusi)}
+                )
+            </Typography>
 
             <Grid container>
                 <Grid item xs={12} sm={5}>
@@ -322,7 +284,7 @@ const BoxClosedCases = ({ lastDayStatistics, penultimateDayStatistics }) => {
                 </Grid>
 
                 <Grid item xs={12} sm={7}>
-                    <Grid container>
+                    <Grid container className={"SpecificCasesContainer"}>
                         <Grid item xs={6}>
                             <BoxSpecificCase
                                 title="Guariti"
@@ -365,23 +327,7 @@ const BoxClosedCases = ({ lastDayStatistics, penultimateDayStatistics }) => {
                     </Grid>
                 </Grid>
             </Grid>
-        </Card>
-    );
-};
-
-const BoxTitle = ({ title }) => {
-    const classes = useStyles();
-
-    return (
-        <Typography
-            variant="h4"
-            color="primary"
-            gutterBottom
-            align="center"
-            className={classes.title}
-        >
-            {title}
-        </Typography>
+        </CustomCard>
     );
 };
 
@@ -393,16 +339,11 @@ const BoxSpecificCase = ({
     percentage,
     color
 }) => {
-    const classes = useStyles();
-
     const percentageComparedPreviousDay =
         (value - previousValue) / previousValue;
 
     return (
-        <div
-            className={classes.horizontalPaper}
-            style={{ maxWidth: 180, margin: "auto" }}
-        >
+        <div className={"SpecificCaseContainer"}>
             <Typography
                 component="h5"
                 color="inherit"

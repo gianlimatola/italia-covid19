@@ -14,7 +14,7 @@ const CustomPieChart = ({ data }) => {
         percent,
         index
     }) => {
-        const RADIAN = Math.PI / 180;
+        // const RADIAN = Math.PI / 180;
         // eslint-disable-next-line
         const radius = 5 + innerRadius + (outerRadius - innerRadius);
         // eslint-disable-next-line

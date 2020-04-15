@@ -1,59 +1,77 @@
 import React from "react";
 
-// import moment from "moment";
+import { useHistory, NavLink } from "react-router-dom";
 
 import { AppBar, Toolbar, Typography, IconButton } from "@material-ui/core";
 
-import MenuIcon from "@material-ui/icons/Menu";
+// import MenuIcon from "@material-ui/icons/Menu";
+import CloseIcon from "@material-ui/icons/Close";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
+    root: {
+        flexGrow: 1,
+    },
     title: {
         display: "flex",
         fontSize: "1.3rem",
-        flexGrow: 1
-    }
+        flexGrow: 1,
+    },
 }));
 
-function Header({ subTitle }) {
+function Header({ subTitle, showCloseButton }) {
     const classes = useStyles();
 
+    const history = useHistory();
+
     return (
-        <AppBar position="fixed">
-            <Toolbar>
-                {/* <IconButton
-                    edge="start"
-                    color="inherit"
-                    aria-label="open drawer"
-                >
-                    <MenuIcon />
-                </IconButton> */}
-                <div>
-                    <Typography
-                        component="h1"
-                        variant="h1"
+        <div className={classes.root}>
+            <AppBar position="fixed">
+                <Toolbar>
+                    {/* <IconButton
+                        edge="start"
                         color="inherit"
-                        noWrap
-                        className={classes.title}
+                        aria-label="open drawer"
                     >
-                        ITALIA-COVID19
-                    </Typography>
-                    <Typography
-                        component="h5"
-                        variant="h5"
-                        color="inherit"
-                        noWrap
-                        //className={classes.title}
-                        style={{ fontSize: "0.8rem" }}
-                    >
-                        {/* Dato Nazioniale */}
-                        {/* Regione Friuli Venezia Giulia */}
-                        {subTitle}
-                    </Typography>
-                </div>
-            </Toolbar>
-        </AppBar>
+                        <MenuIcon />
+                    </IconButton> */}
+                    <div style={{ flexGrow: 1 }}>
+                        <Typography
+                            component="h1"
+                            variant="h1"
+                            color="inherit"
+                            noWrap
+                            className={classes.title}
+                        >
+                            ITALIA-COVID19
+                        </Typography>
+                        <Typography
+                            component="h5"
+                            variant="h5"
+                            color="inherit"
+                            noWrap
+                            //className={classes.title}
+                            style={{ fontSize: "0.8rem" }}
+                        >
+                            {/* Dato Nazioniale */}
+                            {/* Regione Friuli Venezia Giulia */}
+                            {subTitle}
+                        </Typography>
+                    </div>
+                    {showCloseButton && (
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            aria-label="open drawer"
+                            onClick={() => history.push(`/`)}
+                        >
+                            <CloseIcon />
+                        </IconButton>
+                    )}
+                </Toolbar>
+            </AppBar>
+        </div>
     );
 }
 

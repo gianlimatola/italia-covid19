@@ -1,20 +1,6 @@
 import { createMuiTheme } from "@material-ui/core/styles";
 
 const theme = createMuiTheme({
-    // overrides: {
-    //     body: {
-    //         fontFamily: ["Roboto", '"Helvetica"', "Arial", "sans-serif"].join(
-    //             ","
-    //         )
-    //         // fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif'
-    //         // fontFamily: "\"Roboto\", \"Helvetica\", \"Arial\", sans-serif",
-    //         // "fontSize": 14,
-    //         // "fontWeightLight": 300,
-    //         // "fontWeightRegular": 400,
-    //         // "fontWeightMedium": 500
-    //     }
-    // },
-
     palette: {
         // common: {
         //     black: "#000",
@@ -29,7 +15,7 @@ const theme = createMuiTheme({
             main: "#008dc9",
             dark: "#006098",
             contrastText: "#fff"
-        },
+        }
         // secondary: {
         //     light: "#ff5e62",
         //     main: "#d82138",
@@ -45,6 +31,39 @@ const theme = createMuiTheme({
         //     disabled: "rgba(0, 0, 0, 0.38)",
         //     hint: "rgba(0, 0, 0, 0.38)"
         // }
+    },
+    overrides: {
+        MuiCard: {
+            root: {
+                "&.MuiCustomCard": {
+                    marginTop: 8
+                },
+                "& div.MuiCustomCardContainer": {
+                    padding: 8
+                }
+            }
+        },
+        MuiTypography: {
+            root: {
+                "&.MuiCustomCardTitle": {
+                    margin: 0,
+                    padding: "16px 16px 0 16px"
+                }
+            }
+        },
+        MuiGrid: {
+            root: {
+                "&.SpecificCasesContainer": {
+                    "& div.SpecificCaseContainer": {
+                        maxWidth: 180,
+                        margin: "auto",
+                        textAlign: "center",
+                        padding: 8
+
+                    }
+                }
+            }
+        }
     }
 });
 

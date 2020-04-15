@@ -1,7 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import moment from "moment";
-
 import { appSettings } from "../app.settings";
 
 export const initialState = {
@@ -94,17 +92,14 @@ function fetchItalyStats() {
                 []
             );
 
-            const last = items[items.length - 1];
-
             return {
-                updateDateTime: last.data.substring(0, 10),
                 items: items
             };
         });
 }
 
 function fetchRegionsStats() {
-    return fetch(appSettings.regionsStatsUrl) //("/dpc-covid19-ita-regioni-latest.json") //appSettings.regionsStatsUrl)
+    return fetch(appSettings.regionsStatsUrl) //"/dpc-covid19-ita-regioni-latest.json") //appSettings.regionsStatsUrl)
         .then(value => value.json())
         .then(json => {
             const regionsMap = json.reduce(
@@ -114,8 +109,12 @@ function fetchRegionsStats() {
                         totale_casi,
                         nuovi_positivi,
                         totale_positivi,
+                        variazione_totale_positivi,
                         dimessi_guariti,
-                        deceduti
+                        deceduti,
+                        terapia_intensiva,
+                        isolamento_domiciliare,
+                        ricoverati_con_sintomi
                     } = currentValue;
 
                     if (!accumulator.get(codice_regione)) {
@@ -133,10 +132,17 @@ function fetchRegionsStats() {
                             totaleContagiati: 0,
                             nuoviContagiati: 0,
                             totalePositivi: 0,
+                            nuoviPositivi: 0,
                             totaleGuariti: 0,
                             nuoviGuariti: 0,
                             totaleDeceduti: 0,
-                            nuoviDeceduti: 0
+                            nuoviDeceduti: 0,
+                            totaleTerapiaIntensiva: 0,
+                            nuoviTerapiaIntensiva: 0,
+                            totaleIsolamentoDomiciliare: 0,
+                            nuoviIsolamentoDomiciliare: 0,
+                            totaleRicoveratiConSintomi: 0,
+                            nuoviRicoveratiConSintomi: 0
                         });
                     }
 
@@ -145,9 +151,14 @@ function fetchRegionsStats() {
                     dataItem.totaleContagiati += totale_casi;
                     dataItem.nuoviContagiati += nuovi_positivi;
                     dataItem.totalePositivi += totale_positivi;
+                    dataItem.nuoviPositivi += variazione_totale_positivi;
 
                     dataItem.totaleGuariti += dimessi_guariti;
                     dataItem.totaleDeceduti += deceduti;
+
+                    dataItem.totaleTerapiaIntensiva += terapia_intensiva;
+                    dataItem.totaleIsolamentoDomiciliare += isolamento_domiciliare;
+                    dataItem.totaleRicoveratiConSintomi += ricoverati_con_sintomi;
 
                     return accumulator;
                 },
@@ -168,6 +179,21 @@ function fetchRegionsStats() {
                             currentValue.nuoviDeceduti =
                                 currentValue.totaleDeceduti -
                                 accumulator[currentIndex - 1].totaleDeceduti;
+
+                            currentValue.nuoviTerapiaIntensiva =
+                                currentValue.totaleTerapiaIntensiva -
+                                accumulator[currentIndex - 1]
+                                    .totaleTerapiaIntensiva;
+
+                            currentValue.nuoviIsolamentoDomiciliare =
+                                currentValue.totaleIsolamentoDomiciliare -
+                                accumulator[currentIndex - 1]
+                                    .totaleIsolamentoDomiciliare;
+
+                            currentValue.nuoviRicoveratiConSintomi =
+                                currentValue.totaleRicoveratiConSintomi -
+                                accumulator[currentIndex - 1]
+                                    .totaleRicoveratiConSintomi;
                         }
 
                         accumulator.push(currentValue);
@@ -195,14 +221,63 @@ function fetchRegionsStats() {
         });
 }
 
+function fetchProvincesStats() {
+    return fetch(appSettings.provincesStatsUrl)
+        .then(value => value.json())
+        .then(json => {
+            const dictionary = json.reduce(
+                (accumulator, currentValue, currentIndex) => {
+                    const {
+                        codice_regione,
+                        codice_provincia,
+                        totale_casi,
+                        sigla_provincia
+                    } = currentValue;
+
+                    if (sigla_provincia !== "") {
+                        if (!accumulator.get(codice_regione)) {
+                            accumulator.set(codice_regione, []);
+                        }
+
+                        let regionItem = accumulator.get(codice_regione);
+
+                        let provinceItem = {
+                            codice: codice_provincia,
+                            // codiceRegion: codice_regione,
+                            totaleContagiati: totale_casi
+                        };
+
+                        regionItem.push(provinceItem);
+                    }
+
+                    return accumulator;
+                },
+                new Map()
+            );
+
+            let items = [];
+
+            dictionary.forEach((provinces, regionKey) => {
+                items.push({
+                    codiceRegione: regionKey,
+                    province: provinces
+                })
+            });
+
+            return {
+                items: items
+            };
+        });
+}
+
 export function fetchStats() {
     return async dispatch => {
         dispatch(getStats());
 
         Promise.all([
             fetchItalyStats(),
-            fetchRegionsStats()
-            //fetch(appSettings.provincesStatsUrl).then(value => value.json())
+            fetchRegionsStats(),
+            fetchProvincesStats()
         ])
             .then(value => {
                 dispatch(
@@ -214,9 +289,10 @@ export function fetchStats() {
                         regions: {
                             items: value[1].items,
                             latest: value[1].latest
+                        },
+                        provinces: { 
+                            items: value[2].items
                         }
-                        // regions: value[1],
-                        // provinces: value[2]
                     })
                 );
             })

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Typography, AppBar, IconButton, Toolbar } from "@material-ui/core";
+import { Typography, IconButton, Toolbar } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
 

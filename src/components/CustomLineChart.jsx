@@ -28,7 +28,7 @@ const CustomizedAxisTick = ({ x, y, stroke, payload }) => {
     );
 };
 
-const tickFormatterYAxis = value => `${value / 1000}K`;
+const tickFormatterYAxis = value => value  > 9999 ? `${value / 1000}K` : value;
 
 function getLines(options) {
     return options.lines.map((line, index) => {
