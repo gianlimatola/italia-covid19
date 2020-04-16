@@ -14,8 +14,8 @@ const theme = createMuiTheme({
             light: "#5cbdfc",
             main: "#008dc9",
             dark: "#006098",
-            contrastText: "#fff"
-        }
+            contrastText: "#fff",
+        },
         // secondary: {
         //     light: "#ff5e62",
         //     main: "#d82138",
@@ -36,20 +36,20 @@ const theme = createMuiTheme({
         MuiCard: {
             root: {
                 "&.MuiCustomCard": {
-                    marginTop: 8
+                    marginTop: 8,
                 },
                 "& div.MuiCustomCardContainer": {
-                    padding: 8
-                }
-            }
+                    padding: 8,
+                },
+            },
         },
         MuiTypography: {
             root: {
                 "&.MuiCustomCardTitle": {
                     margin: 0,
-                    padding: "16px 16px 0 16px"
-                }
-            }
+                    padding: "16px 16px 0 16px",
+                },
+            },
         },
         MuiGrid: {
             root: {
@@ -58,13 +58,18 @@ const theme = createMuiTheme({
                         maxWidth: 180,
                         margin: "auto",
                         textAlign: "center",
-                        padding: 8
-
-                    }
-                }
-            }
-        }
-    }
+                        padding: 8,
+                    },
+                },
+            },
+        },
+        MuiTableCell: {
+            sizeSmall: {
+                padding: 6,
+                "&:last-child": { paddingRight: 6 },
+            },
+        },
+    },
 });
 
 export default theme;

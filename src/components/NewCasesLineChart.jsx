@@ -4,8 +4,6 @@ import moment from "moment";
 
 import CustomCard from "./CustomCard";
 
-import { Grid } from "@material-ui/core";
-
 import { LineChart } from ".";
 
 const NewCasesLineChart = ({ data }) => {
@@ -14,18 +12,13 @@ const NewCasesLineChart = ({ data }) => {
     return (
         <CustomCard title="Nuovi casi">
             <LineChart data={newCasesLineChartData} />
-            {/* <Grid container className={"MuiCustomCardContainer"}>
-                <Grid item xs={12}>
-                    
-                </Grid>
-            </Grid> */}
         </CustomCard>
     );
 };
 
 export default NewCasesLineChart;
 
-const getNewCasesLineChartData = newCases => {
+const getNewCasesLineChartData = (newCases) => {
     return {
         data: newCases.reduce((accumulator, currentValue) => {
             accumulator.push({
@@ -33,7 +26,7 @@ const getNewCasesLineChartData = newCases => {
                 nuoviContagiati: currentValue.nuoviContagiati,
                 nuoviPositivi: currentValue.nuoviPositivi,
                 nuoviGuariti: currentValue.nuoviGuariti,
-                nuoviDeceduti: currentValue.nuoviDeceduti
+                nuoviDeceduti: currentValue.nuoviDeceduti,
             });
 
             return accumulator;
@@ -43,24 +36,24 @@ const getNewCasesLineChartData = newCases => {
                 {
                     label: "Contagiati",
                     dataKey: "nuoviContagiati",
-                    color: "red"
+                    color: "red",
                 },
                 {
                     label: "Positivi",
                     dataKey: "nuoviPositivi",
-                    color: "orange"
+                    color: "orange",
                 },
                 {
                     label: "Guariti",
                     dataKey: "nuoviGuariti",
-                    color: "green"
+                    color: "green",
                 },
                 {
                     label: "Deceduti",
                     dataKey: "nuoviDeceduti",
-                    color: "black"
-                }
-            ]
-        }
+                    color: "black",
+                },
+            ],
+        },
     };
 };

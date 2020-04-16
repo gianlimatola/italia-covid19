@@ -1,12 +1,8 @@
 import React, { useEffect } from "react";
 
-import ReactGa from "react-ga";
-
 import { useDispatch, useSelector } from "react-redux";
 
 import { Typography, Card } from "@material-ui/core";
-
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -46,20 +42,12 @@ const useStyles = makeStyles((theme) => ({
 function ItalyContainer() {
     const classes = useStyles();
 
-    const isUpSm = useMediaQuery("(min-width:600px)"); // useMediaQuery(theme.breakpoints.up("xs"));
-
     const { stats } = useSelector(statsSelector);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (process.env.NODE_ENV !== "development") {
-            ReactGa.initialize("UA-163255882-1");
-
-            ReactGa.pageview("/");
-        }
-
-        dispatch(changeHeaderSubTitle("Dato Nazioniale"));
+        dispatch(changeHeaderSubTitle("Dato Nazionale"));
 
         dispatch(changeCloseButtonVisibility(false));
     }, [dispatch]);
@@ -109,59 +97,6 @@ function ItalyContainer() {
                 title="Dettaglio per regione"
                 descriptionLabel="Regione"
             />
-
-            {/* <Card className={classes.card}>
-                <Title text="Dettaglio per regione" />
-
-                <Table
-                    className={classes.table}
-                    size="small"
-                    aria-label="a dense table"
-                >
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Regione</TableCell>
-                            <TableCell align="right">Contagiati</TableCell>
-                            <TableCell align="right">
-                                % contagiati/ popolazione
-                            </TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {stats.regions.latest.map(row => (
-                            <TableRow key={row.codice}>
-                                <TableCell
-                                    component="th"
-                                    scope="row"
-                                    style={{ minWidth: 150 }}
-                                >
-                                    {isUpSm
-                                        ? regionsDictionary.get(row.codice)
-                                              .descrizione
-                                        : regionsDictionary.get(row.codice)
-                                              .descrizioneBreve}
-                                </TableCell>
-                                <TableCell align="right">
-                                    {Intl.NumberFormat("it").format(
-                                        row.totaleContagiati
-                                    )}
-                                </TableCell>
-                                <TableCell align="right">
-                                    {Intl.NumberFormat("it", {
-                                        style: "percent",
-                                        minimumFractionDigits: 3,
-                                        maximumFractionDigits: 3
-                                    }).format(
-                                        row.totaleContagiati /
-                                            regionsDictionary.get(row.codice)
-                                                .popolazione
-                                    )}
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </Card> */}
 
             <Card className={classes.card}>
                 <Title text="Distribuzione per regione" />

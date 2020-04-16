@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useHistory, NavLink } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import { AppBar, Toolbar, Typography, IconButton } from "@material-ui/core";
 

@@ -24,6 +24,7 @@ import Region from "../pages/region/RegionContainer";
 import theme from "./theme";
 
 import { CssBaseline } from "@material-ui/core";
+import { RouteManager } from "./RouteManager";
 
 const useStyles = makeStyles((theme) => ({
     offset: theme.mixins.toolbar,
@@ -55,6 +56,7 @@ function App() {
         <MuiThemeProvider theme={theme}>
             <CssBaseline />
             <Router>
+                <RouteManager />
                 <Header subTitle={headerSubTitle} showCloseButton={closeButton}/>
                 <div className={classes.offset} />
                 <div className={classes.container}>

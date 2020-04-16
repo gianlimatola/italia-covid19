@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import ReactGa from "react-ga";
-
-import { useParams, useHistory, useLocation } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -31,8 +29,6 @@ const RegionContainer = () => {
 
     const history = useHistory();
 
-    const location = useLocation();
-
     const { stats } = useSelector(statsSelector);
 
     useEffect(() => {
@@ -42,12 +38,6 @@ const RegionContainer = () => {
 
         if (!findRegionResult) {
             history.push(`/`);
-        }
-
-        if (process.env.NODE_ENV !== "development") {
-            ReactGa.initialize("UA-163255882-1");
-
-            ReactGa.pageview(location.pathname);
         }
 
         setSelectedRegion(findRegionResult);
@@ -60,8 +50,6 @@ const RegionContainer = () => {
     }, [dispatch]);
 
     if (selectedRegion === null) return null;
-
-    console.log(location);
 
     const {
         regions: { items },

@@ -80,7 +80,7 @@ const BoxTotalCases = ({ lastDayStatistics }) => {
             >
                 (
                 {Intl.NumberFormat("it", {
-                    signDisplay: "always"
+                    signDisplay: "always",
                 }).format(lastDayStatistics.nuoviContagiati)}
                 )
             </Typography>
@@ -93,18 +93,18 @@ const BoxActiveCases = ({ lastDayStatistics, penultimateDayStatistics }) => {
         {
             name: "Ricov. con sintomi",
             value: lastDayStatistics.totaleRicoveratiConSintomi,
-            color: "#ed723c"
+            color: "#ed723c",
         },
         {
             name: "In terapia intensiva",
             value: lastDayStatistics.totaleTerapiaIntensiva,
-            color: "#7a0000"
+            color: "#7a0000",
         },
         {
             name: "Isolamento dom.",
             value: lastDayStatistics.totaleIsolamentoDomiciliare,
-            color: "#ffb244"
-        }
+            color: "#ffb244",
+        },
     ];
 
     return (
@@ -113,7 +113,6 @@ const BoxActiveCases = ({ lastDayStatistics, penultimateDayStatistics }) => {
                 align="center"
                 component="h5"
                 color="inherit"
-                align="center"
                 noWrap
                 style={{ marginBottom: 0, color: "orange" }}
             >
@@ -138,7 +137,7 @@ const BoxActiveCases = ({ lastDayStatistics, penultimateDayStatistics }) => {
             >
                 (
                 {Intl.NumberFormat("it", {
-                    signDisplay: "always"
+                    signDisplay: "always",
                 }).format(lastDayStatistics.nuoviPositivi)}
                 )
             </Typography>
@@ -164,7 +163,7 @@ const BoxActiveCases = ({ lastDayStatistics, penultimateDayStatistics }) => {
                                 percentage={Intl.NumberFormat("it", {
                                     style: "percent",
                                     minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2
+                                    maximumFractionDigits: 2,
                                 }).format(
                                     lastDayStatistics.totaleRicoveratiConSintomi /
                                         lastDayStatistics.totalePositivi
@@ -186,7 +185,7 @@ const BoxActiveCases = ({ lastDayStatistics, penultimateDayStatistics }) => {
                                 percentage={Intl.NumberFormat("it", {
                                     style: "percent",
                                     minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2
+                                    maximumFractionDigits: 2,
                                 }).format(
                                     lastDayStatistics.totaleTerapiaIntensiva /
                                         lastDayStatistics.totalePositivi
@@ -210,7 +209,7 @@ const BoxActiveCases = ({ lastDayStatistics, penultimateDayStatistics }) => {
                                 percentage={Intl.NumberFormat("it", {
                                     style: "percent",
                                     minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2
+                                    maximumFractionDigits: 2,
                                 }).format(
                                     lastDayStatistics.totaleIsolamentoDomiciliare /
                                         lastDayStatistics.totalePositivi
@@ -230,13 +229,13 @@ const BoxClosedCases = ({ lastDayStatistics, penultimateDayStatistics }) => {
         {
             name: "Guariti",
             value: lastDayStatistics.totaleGuariti,
-            color: "green"
+            color: "green",
         },
         {
             name: "Deceduti",
             value: lastDayStatistics.totaleDeceduti,
-            color: "black"
-        }
+            color: "black",
+        },
     ];
 
     const totaleCasiChiusi =
@@ -246,7 +245,7 @@ const BoxClosedCases = ({ lastDayStatistics, penultimateDayStatistics }) => {
         lastDayStatistics.nuoviGuariti + lastDayStatistics.nuoviDeceduti;
 
     return (
-        <CustomCard title="Casi chiusi">
+        <CustomCard title="Casi non più attivi">
             <Typography
                 align="center"
                 component="h5"
@@ -254,7 +253,7 @@ const BoxClosedCases = ({ lastDayStatistics, penultimateDayStatistics }) => {
                 noWrap
                 style={{ marginBottom: 0, color: "#aaa" }}
             >
-                Casi che hanno avuto esito
+                Contagiati guariti o deceduti
             </Typography>
 
             <Typography
@@ -273,7 +272,7 @@ const BoxClosedCases = ({ lastDayStatistics, penultimateDayStatistics }) => {
             >
                 (
                 {Intl.NumberFormat("it", {
-                    signDisplay: "always"
+                    signDisplay: "always",
                 }).format(nuoviCasiChiusi)}
                 )
             </Typography>
@@ -296,7 +295,7 @@ const BoxClosedCases = ({ lastDayStatistics, penultimateDayStatistics }) => {
                                 percentage={Intl.NumberFormat("it", {
                                     style: "percent",
                                     minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2
+                                    maximumFractionDigits: 2,
                                 }).format(
                                     lastDayStatistics.totaleGuariti /
                                         totaleCasiChiusi
@@ -316,7 +315,7 @@ const BoxClosedCases = ({ lastDayStatistics, penultimateDayStatistics }) => {
                                 percentage={Intl.NumberFormat("it", {
                                     style: "percent",
                                     minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2
+                                    maximumFractionDigits: 2,
                                 }).format(
                                     lastDayStatistics.totaleDeceduti /
                                         totaleCasiChiusi
@@ -337,7 +336,7 @@ const BoxSpecificCase = ({
     previousValue,
     variance,
     percentage,
-    color
+    color,
 }) => {
     const percentageComparedPreviousDay =
         (value - previousValue) / previousValue;
@@ -351,7 +350,7 @@ const BoxSpecificCase = ({
                 noWrap
                 style={{
                     marginBottom: 0,
-                    color: color
+                    color: color,
                 }}
             >
                 {title}
@@ -362,7 +361,7 @@ const BoxSpecificCase = ({
                 gutterBottom
                 style={{
                     marginBottom: 0,
-                    color: color
+                    color: color,
                 }}
             >
                 {Intl.NumberFormat("it").format(value)}
@@ -374,7 +373,7 @@ const BoxSpecificCase = ({
                 style={{
                     marginBottom: 0,
                     fontSize: "0.95rem",
-                    color: color
+                    color: color,
                 }}
             >
                 ({percentage})
@@ -385,12 +384,12 @@ const BoxSpecificCase = ({
                 color="inherit"
                 align="center"
                 style={{
-                    fontSize: "0.8rem"
+                    fontSize: "0.8rem",
                 }}
             >
                 <b>
                     {Intl.NumberFormat("it", {
-                        signDisplay: "always"
+                        signDisplay: "always",
                     }).format(variance)}
                 </b>{" "}
                 <b>
@@ -399,12 +398,12 @@ const BoxSpecificCase = ({
                         signDisplay: "always",
                         style: "percent",
                         minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
+                        maximumFractionDigits: 2,
                     }).format(percentageComparedPreviousDay)}
                     )
                 </b>{" "}
-                rispetto al giorno precedente che erano{" "}
-                <b>{Intl.NumberFormat("it").format(previousValue)}</b>
+                rispetto al giorno precedente (
+                <b>{Intl.NumberFormat("it").format(previousValue)}</b>)
             </Typography>
         </div>
     );

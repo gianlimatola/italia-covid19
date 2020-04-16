@@ -8,6 +8,7 @@ import {
     TableBody,
     TableRow,
     TableCell,
+    Link,
 } from "@material-ui/core";
 
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -23,8 +24,8 @@ const DetailTable = ({ data, title, descriptionLabel }) => {
                 <TableHead>
                     <TableRow>
                         <TableCell>{descriptionLabel}</TableCell>
-                        <TableCell align="right">Contagiati</TableCell>
-                        <TableCell align="right">
+                        <TableCell align="right" style={{ maxWidth: 80 }}>Contagiati</TableCell>
+                        <TableCell align="right" style={{ maxWidth: 120 }}>
                             % contagiati/ popolazione
                         </TableCell>
                     </TableRow>
@@ -32,17 +33,13 @@ const DetailTable = ({ data, title, descriptionLabel }) => {
                 <TableBody>
                     {data.map((row) => (
                         <TableRow key={row.codice}>
-                            <TableCell
-                                component="th"
-                                scope="row"
-                                style={{ minWidth: 150 }}
-                            >
+                            <TableCell>
                                 {row.link ? (
-                                    <NavLink to={`/${row.link}`}>
+                                    <Link component={NavLink} to={`/${row.link}`}>
                                         {isUpSm
                                             ? row.descrizione
                                             : row.descrizioneBreve}
-                                    </NavLink>
+                                    </Link>
                                 ) : isUpSm ? (
                                     row.descrizione
                                 ) : (

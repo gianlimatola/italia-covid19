@@ -12,7 +12,7 @@ const CustomPieChart = ({ data }) => {
         innerRadius,
         outerRadius,
         percent,
-        index
+        index,
     }) => {
         // const RADIAN = Math.PI / 180;
         // eslint-disable-next-line
@@ -31,9 +31,45 @@ const CustomPieChart = ({ data }) => {
                 dominantBaseline="central"
                 fontWeight="bold"
             >
-                {`${(percent * 100).toFixed(2)}%`}
+                {Intl.NumberFormat("it", {
+                    style: "percent",
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                }).format(percent)}
             </text>
         );
+    };
+
+    const tooltipContent = (tooltipProps) => {
+        const { active } = tooltipProps;
+
+        if (active) {
+            const { payload } = tooltipProps;
+
+            return (
+                <div
+                    className="recharts-default-tooltip"
+                    style={{
+                        margin: 0,
+                        padding: 10,
+                        backgroundColor: "rgb(255, 255, 255)",
+                        border: "1px solid rgb(204, 204, 204)",
+                        whiteSpace: "nowrap",
+                    }}
+                >
+                    <p
+                        className="recharts-tooltip-label"
+                        style={{ margin: 0, color: payload[0].payload.fill }}
+                    >
+                        {`${payload[0].name} : ${Intl.NumberFormat("it").format(
+                            payload[0].value
+                        )}`}
+                    </p>
+                </div>
+            );
+        }
+
+        return null;
     };
 
     return (
@@ -50,7 +86,7 @@ const CustomPieChart = ({ data }) => {
                         <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                 </Pie>
-                <Tooltip />
+                <Tooltip content={tooltipContent} />
             </PieChart>
         </ResponsiveContainer>
     );

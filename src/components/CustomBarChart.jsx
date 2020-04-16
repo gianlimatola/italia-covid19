@@ -8,7 +8,7 @@ import {
     CartesianGrid,
     Tooltip,
     Legend,
-    ResponsiveContainer
+    ResponsiveContainer,
 } from "recharts";
 
 function getBars(options) {
@@ -24,33 +24,41 @@ function getBars(options) {
     });
 }
 
+const tickFormatterXAxis = (value) =>
+    value > 9999 ? `${value / 1000}K` : value;
+
 const CustomBarChart = ({ data }) => {
     const bars = getBars(data.options);
 
     const renderLegend = (value, entry) => {
         const { color } = entry;
 
-        let selectedItem = data.options.bars.find(_ => _.dataKey === value);
+        let selectedItem = data.options.bars.find((_) => _.dataKey === value);
 
         return <span style={{ color }}>{selectedItem.label}</span>;
     };
 
     const valueFormatterTooltip = (value, name, props) => {
-        let selectedItem = data.options.bars.find(_ => _.dataKey === name);
+        let selectedItem = data.options.bars.find((_) => _.dataKey === name);
 
         return [Intl.NumberFormat("it").format(value), selectedItem.label];
     };
 
-    const labelFormatterTooltip = value => {
-        let selectedItem = data.data.find(_ => _.nome === value);
+    const labelFormatterTooltip = (value) => {
+        let selectedItem = data.data.find((_) => _.nome === value);
 
         return (
             <>
                 <span style={{ marginBottom: 10, display: "block" }}>
                     {value}
                 </span>
-                <span style={{ marginBottom: 5, display: "block", color: "red" }}>
-                    Contagiati : {Intl.NumberFormat("it").format(selectedItem.totaleContagiati)}
+                <span
+                    style={{ marginBottom: 5, display: "block", color: "red" }}
+                >
+                    Contagiati :{" "}
+                    {Intl.NumberFormat("it").format(
+                        selectedItem.totaleContagiati
+                    )}
                 </span>
             </>
         );
@@ -65,11 +73,11 @@ const CustomBarChart = ({ data }) => {
                     top: 20,
                     right: 30,
                     left: 20,
-                    bottom: 5
+                    bottom: 5,
                 }}
             >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis type="number" />
+                <XAxis type="number" tickFormatter={tickFormatterXAxis} />
                 <YAxis width={85} type="category" dataKey="nome" />
                 <Tooltip
                     formatter={valueFormatterTooltip}
