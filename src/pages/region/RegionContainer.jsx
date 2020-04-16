@@ -18,6 +18,7 @@ import {
     DailyTrendLineChart,
     NewCasesLineChart,
     DetailTable,
+    PlaceLogo,
 } from "../../components";
 
 const RegionContainer = () => {
@@ -81,6 +82,11 @@ const RegionContainer = () => {
 
     return (
         <div>
+            <PlaceLogo
+                imageName={region.toLowerCase()}
+                text={`Regione ${selectedRegion.descrizione}`}
+            />
+
             <Overview dailyStatistics={datiRegione} />
 
             <DailyTrendLineChart data={datiRegione} />

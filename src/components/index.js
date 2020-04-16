@@ -5,4 +5,5 @@ export { default as LineChart } from "./CustomLineChart";
 export { default as NewCasesLineChart } from "./NewCasesLineChart";
 export { default as Overview } from "./Overview/Overview";
 export { default as PieChart } from "./CustomPieChart";
+export { default as PlaceLogo } from "./PlaceLogo";
 export { default as Progress } from "./Progress";

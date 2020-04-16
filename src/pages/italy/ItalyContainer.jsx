@@ -19,6 +19,7 @@ import {
     DailyTrendLineChart,
     NewCasesLineChart,
     DetailTable,
+    PlaceLogo,
 } from "../../components";
 
 import { regionsDictionary } from "../../data";
@@ -86,6 +87,8 @@ function ItalyContainer() {
 
     return (
         <>
+            <PlaceLogo imageName="italia" text="Dato Nazionale" />
+
             <Overview dailyStatistics={items} />
 
             <DailyTrendLineChart data={items} />

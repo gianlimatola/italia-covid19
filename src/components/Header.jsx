@@ -46,18 +46,15 @@ function Header({ subTitle, showCloseButton }) {
                         >
                             ITALIA-COVID19
                         </Typography>
-                        <Typography
+                        {/* <Typography
                             component="h5"
                             variant="h5"
                             color="inherit"
                             noWrap
-                            //className={classes.title}
                             style={{ fontSize: "0.8rem" }}
                         >
-                            {/* Dato Nazioniale */}
-                            {/* Regione Friuli Venezia Giulia */}
                             {subTitle}
-                        </Typography>
+                        </Typography> */}
                     </div>
                     {showCloseButton && (
                         <IconButton
