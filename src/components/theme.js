@@ -69,6 +69,19 @@ const theme = createMuiTheme({
                 "&:last-child": { paddingRight: 6 },
             },
         },
+        MuiList: {
+            root: {
+                "&.DrawerList": {
+                    "& a.MuiListItem-root": {
+                        paddingTop: 4,
+                        paddingBottom: 4,
+                    },
+                    "& div.MuiListItemIcon-root": {
+                        minWidth: 40,
+                    },
+                },
+            },
+        },
     },
 });
 

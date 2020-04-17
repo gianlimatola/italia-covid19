@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useHistory, useLocation } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -26,11 +26,14 @@ const RegionContainer = () => {
 
     let { region } = useParams();
 
+
     const dispatch = useDispatch();
 
     const history = useHistory();
 
     const { stats } = useSelector(statsSelector);
+
+    const { pathname, search } = useLocation();
 
     useEffect(() => {
         let findRegionResult = Array.from(regionsDictionary.values()).find(
@@ -48,7 +51,7 @@ const RegionContainer = () => {
         );
 
         dispatch(changeCloseButtonVisibility(true));
-    }, [dispatch]);
+    }, [dispatch, pathname, search]);
 
     if (selectedRegion === null) return null;
 

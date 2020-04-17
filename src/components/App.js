@@ -44,11 +44,10 @@ function App() {
     const dispatch = useDispatch();
 
     const { loading } = useSelector(statsSelector);
+    
     const { headerSubTitle, closeButton } = useSelector(appSelector);
 
     useEffect(() => {
-        
-
         dispatch(fetchStats());
     }, [dispatch]);
 
@@ -57,7 +56,10 @@ function App() {
             <CssBaseline />
             <Router>
                 <RouteManager />
-                <Header subTitle={headerSubTitle} showCloseButton={closeButton}/>
+                <Header
+                    subTitle={headerSubTitle}
+                    showCloseButton={closeButton}
+                />
                 <div className={classes.offset} />
                 <div className={classes.container}>
                     {loading && <Progress />}
