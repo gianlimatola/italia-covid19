@@ -100,7 +100,7 @@ function Header({ subTitle, showCloseButton }) {
                         button
                         component={NavLink}
                         onClick={() => setOpenDrawer(false)}
-                        to={`/italia`}
+                        to={`/`}
                     >
                         <ListItemIcon>
                             <img

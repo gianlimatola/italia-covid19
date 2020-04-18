@@ -43,14 +43,17 @@ const RegionContainer = () => {
         if (!findRegionResult) {
             history.push(`/`);
         }
+        else {
+            setSelectedRegion(findRegionResult);
 
-        setSelectedRegion(findRegionResult);
+            // dispatch(
+            //     changeHeaderSubTitle(`Regione ${findRegionResult.descrizione}`)
+            // );
+    
+            dispatch(changeCloseButtonVisibility(true));
+        }
 
-        dispatch(
-            changeHeaderSubTitle(`Regione ${findRegionResult.descrizione}`)
-        );
-
-        dispatch(changeCloseButtonVisibility(true));
+        
     }, [dispatch, pathname, search]);
 
     if (selectedRegion === null) return null;

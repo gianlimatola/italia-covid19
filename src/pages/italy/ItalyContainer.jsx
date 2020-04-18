@@ -48,7 +48,7 @@ function ItalyContainer() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(changeHeaderSubTitle("Dato Nazionale"));
+        //dispatch(changeHeaderSubTitle("Dato Nazionale"));
 
         dispatch(changeCloseButtonVisibility(false));
     }, [dispatch]);
