@@ -21,13 +21,13 @@ regionsDictionary.set(3, {
     popolazione: 10060574,
     slug: "lombardia"
 });
-regionsDictionary.set(4, {
-    codice: 4,
-    descrizione: "Trentino-Alto Adige",
-    descrizioneBreve: "Tren.-Alto A.",
-    popolazione: 1072276,
-    slug: "trentino-alto-adige"
-});
+// regionsDictionary.set(4, {
+//     codice: 4,
+//     descrizione: "Trentino-Alto Adige",
+//     descrizioneBreve: "Tren.-Alto A.",
+//     popolazione: 1072276,
+//     slug: "trentino-alto-adige"
+// });
 regionsDictionary.set(5, {
     codice: 5,
     descrizione: "Veneto",
@@ -139,6 +139,20 @@ regionsDictionary.set(20, {
     descrizioneBreve: "Sardegna",
     popolazione: 1639591,
     slug: "sardegna"
+});
+regionsDictionary.set(21, {
+    codice: 21,
+    descrizione: "P.A. Bolzano",
+    descrizioneBreve: "P.A. Bolzano",
+    popolazione: 1072276,
+    slug: "p-a-bolzano"
+});
+regionsDictionary.set(22, {
+    codice: 22,
+    descrizione: "P.A. Trento",
+    descrizioneBreve: "P.A. Trento",
+    popolazione: 1072276,
+    slug: "p-a-trento"
 });
 
 export default regionsDictionary;

@@ -26,7 +26,6 @@ const RegionContainer = () => {
 
     let { region } = useParams();
 
-
     const dispatch = useDispatch();
 
     const history = useHistory();
@@ -42,18 +41,11 @@ const RegionContainer = () => {
 
         if (!findRegionResult) {
             history.push(`/`);
-        }
-        else {
+        } else {
             setSelectedRegion(findRegionResult);
 
-            // dispatch(
-            //     changeHeaderSubTitle(`Regione ${findRegionResult.descrizione}`)
-            // );
-    
             dispatch(changeCloseButtonVisibility(true));
         }
-
-        
     }, [dispatch, pathname, search]);
 
     if (selectedRegion === null) return null;
