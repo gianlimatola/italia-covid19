@@ -144,15 +144,15 @@ regionsDictionary.set(21, {
     codice: 21,
     descrizione: "P.A. Bolzano",
     descrizioneBreve: "P.A. Bolzano",
-    popolazione: 1072276,
-    slug: "p-a-bolzano"
+    popolazione: 531178,
+    slug: "provincia-autonoma-di-bolzano"
 });
 regionsDictionary.set(22, {
     codice: 22,
     descrizione: "P.A. Trento",
     descrizioneBreve: "P.A. Trento",
-    popolazione: 1072276,
-    slug: "p-a-trento"
+    popolazione: 541098,
+    slug: "provincia-autonoma-di-trento"
 });
 
 export default regionsDictionary;
